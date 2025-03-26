@@ -18,50 +18,61 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
 
-    // Logo - Back to Left Side
+    // Logo - Centered
     const logoWidth = 40;
     const logoHeight = 20;
-    doc.addImage(logo, "JPG", 10, 10, logoWidth, logoHeight); // Left-aligned at x=10
+    const logoX = (pageWidth - logoWidth) / 2; // Center horizontally
+    doc.addImage(logo, "JPG", logoX, 10, logoWidth, logoHeight);
 
     // Header Section
     doc.setFontSize(18);
     doc.setFont("helvetica", "bold");
-    doc.setTextColor(33, 37, 41); // Dark gray (professional neutral)
-    doc.text("Financial Transactions Report", 55, 20);
+    doc.setTextColor(0, 51, 102); // Dark blue
+    doc.text("Financial Transactions Report", pageWidth / 2, 40, {
+      align: "center",
+    });
 
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(108, 117, 125); // Medium gray for secondary text
+    doc.setTextColor(50, 50, 50); // Dark gray
     doc.text(
       "A detailed summary of your financial activities and account status",
-      55,
-      30,
+      pageWidth / 2,
+      48,
+      { align: "center" },
     );
-    doc.text(`Report Generated: ${new Date().toLocaleDateString()}`, 55, 38);
+    doc.text(
+      `Report Generated: ${new Date().toLocaleDateString()}`,
+      pageWidth / 2,
+      56,
+      {
+        align: "center",
+      },
+    );
 
     // Divider Line
     doc.setLineWidth(0.5);
-    doc.setDrawColor(108, 117, 125); // Medium gray line
-    doc.line(10, 45, pageWidth - 10, 45);
+    doc.setDrawColor(0, 51, 102);
+    doc.line(10, 62, pageWidth - 10, 62);
 
     // Balance Summary
     doc.setFontSize(14);
-    doc.setTextColor(33, 37, 41); // Dark gray
-    doc.text("Account Overview", 10, 55);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Account Overview", 10, 70);
     doc.setFontSize(12);
-    doc.text("Current Balance:", 10, 65);
+    doc.text("Current Balance:", 10, 80);
     doc.setFont("helvetica", "bold");
-    doc.setTextColor(40, 167, 69); // Muted green for positive balance
-    doc.text(`$${balance.toFixed(2)}`, 60, 65);
+    doc.setTextColor(34, 139, 34); // Forest green
+    doc.text(`$${balance.toFixed(2)}`, 60, 80);
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(108, 117, 125); // Medium gray
+    doc.setTextColor(50, 50, 50);
     doc.text(
       "This balance reflects all recorded transactions up to the report date.",
       10,
-      75,
+      88,
     );
 
-    // Transactions Table
+    // Transactions Table - Smaller Row Heights
     const tableData = [
       ["Date", "Description", "Type", "Amount"],
       ...transactions.map((transaction) => [
@@ -77,31 +88,31 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
     autoTable(doc, {
       head: [tableData[0]],
       body: tableData.slice(1),
-      startY: 85,
+      startY: 95,
       styles: {
-        fontSize: 9,
-        cellPadding: 1.5,
-        textColor: [33, 37, 41], // Dark gray text
+        fontSize: 9, // Reduced font size
+        cellPadding: 1.5, // Reduced padding for smaller rows
+        textColor: [50, 50, 50],
         lineWidth: 0.1,
-        lineColor: [173, 181, 189], // Light gray borders
+        lineColor: [200, 200, 200],
       },
       headStyles: {
-        fillColor: [52, 58, 64], // Darker gray for header
+        fillColor: [0, 51, 102], // Dark blue header
         textColor: [255, 255, 255], // White text
         fontStyle: "bold",
         fontSize: 10,
         cellPadding: 2,
       },
       alternateRowStyles: {
-        fillColor: [248, 249, 250], // Very light gray for alternate rows
+        fillColor: [245, 245, 245], // Light gray for alternate rows
       },
       didParseCell: (data) => {
         if (data.column.index === 2) {
           const cellText = data.cell.text.toString();
           if (cellText === "INCOME") {
-            data.cell.styles.fillColor = [240, 248, 255]; // Very light blue (subtle)
+            data.cell.styles.fillColor = [230, 255, 230]; // Light green
           } else if (cellText === "EXPENSE") {
-            data.cell.styles.fillColor = [255, 245, 245]; // Very light red (subtle)
+            data.cell.styles.fillColor = [255, 230, 230]; // Light red
           }
         }
         if (data.column.index === 3) {
@@ -111,12 +122,12 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
     });
 
     // Additional Insights
-    const finalY = (doc as any).lastAutoTable.finalY || 85;
+    const finalY = (doc as any).lastAutoTable.finalY || 95;
     doc.setFontSize(12);
-    doc.setTextColor(33, 37, 41); // Dark gray
+    doc.setTextColor(0, 0, 0);
     doc.text("Transaction Summary", 10, finalY + 10);
     doc.setFontSize(10);
-    doc.setTextColor(108, 117, 125); // Medium gray
+    doc.setTextColor(50, 50, 50);
     const totalIncome = transactions
       .filter((t) => t.type === "INCOME")
       .reduce((sum, t) => sum + t.amount, 0);
@@ -131,12 +142,12 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
       finalY + 32,
     );
 
-    // Footer
+    // Footer - Fixed to Avoid Overlap
     const pageHeight = doc.internal.pageSize.getHeight();
-    doc.setFillColor(52, 58, 64); // Dark gray footer background
-    doc.rect(0, pageHeight - 20, pageWidth, 20, "F");
-    doc.setFontSize(8);
-    doc.setTextColor(255, 255, 255); // White text
+    doc.setFillColor(0, 51, 102);
+    doc.rect(0, pageHeight - 20, pageWidth, 20, "F"); // Reduced height to 20
+    doc.setFontSize(8); // Smaller font to fit
+    doc.setTextColor(255, 255, 255);
     doc.text(
       "© 2025 xAI Financial Services | All Rights Reserved",
       10,
