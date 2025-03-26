@@ -67,7 +67,12 @@ const TaskManager: React.FC = () => {
       });
       setTasks(response.data);
     } catch (error) {
-      toast({ title: "Error loading tasks", status: "error", duration: 5000, isClosable: true });
+      toast({
+        title: "Error loading tasks",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       console.error(error);
     } finally {
       setIsFetching(false);
@@ -93,9 +98,19 @@ const TaskManager: React.FC = () => {
       setTasks([response.data, ...tasks]);
       setNewTask({ title: "", description: "", dueDate: "", status: "ONGOING" });
       setIsAddTaskOpen(false);
-      toast({ title: "Task added!", status: "success", duration: 5000, isClosable: true });
+      toast({
+        title: "Task added!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
-      toast({ title: "Error adding task", status: "error", duration: 5000, isClosable: true });
+      toast({
+        title: "Error adding task",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       console.error(error);
     }
   };
@@ -106,12 +121,24 @@ const TaskManager: React.FC = () => {
       await axios.patch(
         `http://localhost:8080/tasks/${taskId}/status?newStatus=${newStatus}`,
         null,
-        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } },
+        {
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        }
       );
       setTasks(tasks.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task)));
-      toast({ title: "Task updated!", status: "success", duration: 5000, isClosable: true });
+      toast({
+        title: "Task updated!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
-      toast({ title: "Error updating task", status: "error", duration: 5000, isClosable: true });
+      toast({
+        title: "Error updating task",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       console.error(error);
     }
   };
@@ -124,11 +151,21 @@ const TaskManager: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(tasks.filter((task) => task.id !== deleteId));
-      toast({ title: "Task deleted!", status: "success", duration: 5000, isClosable: true });
+      toast({
+        title: "Task deleted!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
       setDeleteId(null);
       setIsDeleteModalOpen(false);
     } catch (error) {
-      toast({ title: "Error deleting task", status: "error", duration: 5000, isClosable: true });
+      toast({
+        title: "Error deleting task",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
       console.error(error);
     }
   };
@@ -158,11 +195,14 @@ const TaskManager: React.FC = () => {
         _active={{ bg: "linear-gradient(135deg, #4e5ec6 0%, #5e3482 100%)", transform: "translateY(0)" }}
         onClick={handleOpen}
         leftIcon={<Icon as={FaBook} boxSize={5} />}
-        size="lg"
         px={6}
         py={7}
-        fontSize={{ base: "md", md: "lg" }}
         transition="all 0.3s ease"
+        size="lg"
+        height={{ base: "60px", md: "75px", lg: "90px" }}
+        width={{ base: "100px", md: "115px", lg: "130px" }}
+        fontSize={{ base: "12px", md: "14px", lg: "16px" }}
+
       >
         Tasks
       </Button>
@@ -176,6 +216,7 @@ const TaskManager: React.FC = () => {
           w={drawerWidth}
           maxW={drawerPlacement === "right" ? "600px" : "100%"}
           maxH={drawerMaxHeight}
+          zIndex={1200} // Ensure drawer is above other elements
         >
           <DrawerCloseButton color="white" size="lg" mt={2} />
           <DrawerHeader py={6} px={8} borderBottom="1px solid" borderColor="gray.700">
@@ -214,12 +255,15 @@ const TaskManager: React.FC = () => {
                   borderRadius={drawerPlacement === "bottom" ? "16px 16px 0 0" : "16px 0 0 16px"}
                   maxW={drawerPlacement === "right" ? "450px" : "100%"}
                   maxH={drawerMaxHeight}
+                  zIndex={1300} // Higher z-index for Add Task drawer
                 >
                   <DrawerCloseButton color="white" size="lg" mt={2} />
                   <DrawerHeader py={6} px={6} borderBottom="1px solid" borderColor="gray.700">
-                    <Heading size="md" fontWeight="bold">Create Task</Heading>
+                    <Heading size="md" fontWeight="bold">
+                      Create Task
+                    </Heading>
                   </DrawerHeader>
-                  <DrawerBody px={6} py={6}>
+                  <DrawerBody px={6} py={6} overflow="visible">
                     <VStack spacing={5} align="stretch">
                       <FormControl>
                         <FormLabel fontSize="sm" fontWeight="semibold" color="gray.300" mb={1}>
@@ -233,7 +277,8 @@ const TaskManager: React.FC = () => {
                           border="1px solid"
                           borderColor="gray.600"
                           borderRadius="8px"
-                          _focus={{ bg: "gray.700", borderColor: "#667eea", boxShadow: "0 0 0 2px #667eea" }}
+                          _hover={{ borderColor: "gray.500" }}
+                          _focus={{ bg: "gray.700", borderColor: "#667eea" }}
                           color="white"
                           fontSize="md"
                           py={5}
@@ -251,7 +296,8 @@ const TaskManager: React.FC = () => {
                           border="1px solid"
                           borderColor="gray.600"
                           borderRadius="8px"
-                          _focus={{ bg: "gray.700", borderColor: "#667eea", boxShadow: "0 0 0 2px #667eea" }}
+                          _hover={{ borderColor: "gray.500" }}
+                          _focus={{ bg: "gray.700", borderColor: "#667eea" }}
                           color="white"
                           fontSize="md"
                           py={5}
@@ -269,14 +315,19 @@ const TaskManager: React.FC = () => {
                           border="1px solid"
                           borderColor="gray.600"
                           borderRadius="8px"
-                          _focus={{ bg: "gray.700", borderColor: "#667eea", boxShadow: "0 0 0 2px #667eea" }}
+                          _hover={{ borderColor: "gray.500" }}
+                          _focus={{ bg: "gray.700", borderColor: "#667eea" }}
                           color="white"
                           fontSize="md"
                           py={5}
                           sx={{
                             "::-webkit-calendar-picker-indicator": {
-                              filter: "invert(1)", // Makes the calendar icon white
+                              filter: "invert(1)", // White icon
                               cursor: "pointer",
+                              padding: "8px", // Larger clickable area
+                            },
+                            "::-webkit-datetime-edit": {
+                              color: "white", // Visible text
                             },
                           }}
                         />
@@ -292,7 +343,8 @@ const TaskManager: React.FC = () => {
                           border="1px solid"
                           borderColor="gray.600"
                           borderRadius="8px"
-                          _focus={{ bg: "gray.700", borderColor: "#667eea", boxShadow: "0 0 0 2px #667eea" }}
+                          _hover={{ borderColor: "gray.500" }}
+                          _focus={{ bg: "gray.700", borderColor: "#667eea" }}
                           color="white"
                           fontSize="md"
                           py={2}
@@ -365,13 +417,7 @@ const TaskManager: React.FC = () => {
                             value={task.status}
                             onChange={(e) => handleStatusChange(task.id, e.target.value)}
                             size="sm"
-                            bg={
-                              task.status === "DONE"
-                                ? "green.600"
-                                : task.status === "DELAYED"
-                                ? "red.600"
-                                : "blue.600"
-                            }
+                            bg={task.status === "DONE" ? "green.600" : task.status === "DELAYED" ? "red.600" : "blue.600"}
                             color="white"
                             border="none"
                             borderRadius="8px"
@@ -408,7 +454,7 @@ const TaskManager: React.FC = () => {
             <Button
               variant="outline"
               colorScheme="gray"
-              color="white" // Changed to white
+              color="white"
               onClick={handleClose}
               borderRadius="8px"
               fontSize="md"
@@ -424,8 +470,10 @@ const TaskManager: React.FC = () => {
       <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
         <ModalOverlay bg="rgba(0, 0, 0, 0.6)" />
         <ModalContent bg="#1a202c" color="white" borderRadius="12px">
-          <ModalHeader fontSize="lg" fontWeight="bold">Delete Task</ModalHeader>
-          <ModalCloseButton color="white" /> {/* Changed to white */}
+          <ModalHeader fontSize="lg" fontWeight="bold">
+            Delete Task
+          </ModalHeader>
+          <ModalCloseButton color="white" />
           <ModalBody>
             <Text fontSize="md">Are you sure you want to delete this task?</Text>
           </ModalBody>
@@ -433,7 +481,7 @@ const TaskManager: React.FC = () => {
             <Button
               variant="outline"
               colorScheme="gray"
-              color="white" // Changed to white
+              color="white"
               mr={3}
               onClick={() => setIsDeleteModalOpen(false)}
               borderRadius="8px"
