@@ -1,5 +1,4 @@
-import type React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Text,
@@ -229,8 +228,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
               />
             </MotionBox>
           </MotionBox>
-
-          {/* Download History Button */}
         </MotionFlex>
       </Container>
 
