@@ -18,58 +18,47 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
 
-    // Logo - Centered
+    // Logo - Left Side
     const logoWidth = 40;
     const logoHeight = 20;
-    const logoX = (pageWidth - logoWidth) / 2; // Center horizontally
-    doc.addImage(logo, "JPG", logoX, 10, logoWidth, logoHeight);
+    doc.addImage(logo, "JPG", 10, 10, logoWidth, logoHeight); // Left-aligned at x=10
 
     // Header Section
     doc.setFontSize(18);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(0, 51, 102); // Dark blue
-    doc.text("Financial Transactions Report", pageWidth / 2, 40, {
-      align: "center",
-    });
+    doc.text("Financial Transactions Report", 55, 20); // Adjusted to align with logo
 
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(50, 50, 50); // Dark gray
     doc.text(
       "A detailed summary of your financial activities and account status",
-      pageWidth / 2,
-      48,
-      { align: "center" },
+      55,
+      30,
     );
-    doc.text(
-      `Report Generated: ${new Date().toLocaleDateString()}`,
-      pageWidth / 2,
-      56,
-      {
-        align: "center",
-      },
-    );
+    doc.text(`Report Generated: ${new Date().toLocaleDateString()}`, 55, 38);
 
     // Divider Line
     doc.setLineWidth(0.5);
-    doc.setDrawColor(0, 51, 102);
-    doc.line(10, 62, pageWidth - 10, 62);
+    doc.setDrawColor(0, 51, 102); // Dark blue
+    doc.line(10, 45, pageWidth - 10, 45);
 
     // Balance Summary
     doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0);
-    doc.text("Account Overview", 10, 70);
+    doc.setTextColor(0, 0, 0); // Black
+    doc.text("Account Overview", 10, 55);
     doc.setFontSize(12);
-    doc.text("Current Balance:", 10, 80);
+    doc.text("Current Balance:", 10, 65);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(34, 139, 34); // Forest green
-    doc.text(`$${balance.toFixed(2)}`, 60, 80);
+    doc.text(`$${balance.toFixed(2)}`, 60, 65);
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(50, 50, 50);
+    doc.setTextColor(50, 50, 50); // Dark gray
     doc.text(
       "This balance reflects all recorded transactions up to the report date.",
       10,
-      88,
+      75,
     );
 
     // Transactions Table - Smaller Row Heights
@@ -88,13 +77,13 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
     autoTable(doc, {
       head: [tableData[0]],
       body: tableData.slice(1),
-      startY: 95,
+      startY: 85,
       styles: {
         fontSize: 9, // Reduced font size
         cellPadding: 1.5, // Reduced padding for smaller rows
-        textColor: [50, 50, 50],
+        textColor: [50, 50, 50], // Dark gray
         lineWidth: 0.1,
-        lineColor: [200, 200, 200],
+        lineColor: [200, 200, 200], // Light gray
       },
       headStyles: {
         fillColor: [0, 51, 102], // Dark blue header
@@ -124,10 +113,10 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
     // Additional Insights
     const finalY = (doc as any).lastAutoTable.finalY || 95;
     doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0);
+    doc.setTextColor(0, 0, 0); // Black
     doc.text("Transaction Summary", 10, finalY + 10);
     doc.setFontSize(10);
-    doc.setTextColor(50, 50, 50);
+    doc.setTextColor(50, 50, 50); // Dark gray
     const totalIncome = transactions
       .filter((t) => t.type === "INCOME")
       .reduce((sum, t) => sum + t.amount, 0);
@@ -144,10 +133,10 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
 
     // Footer - Fixed to Avoid Overlap
     const pageHeight = doc.internal.pageSize.getHeight();
-    doc.setFillColor(0, 51, 102);
+    doc.setFillColor(0, 51, 102); // Dark blue
     doc.rect(0, pageHeight - 20, pageWidth, 20, "F"); // Reduced height to 20
     doc.setFontSize(8); // Smaller font to fit
-    doc.setTextColor(255, 255, 255);
+    doc.setTextColor(255, 255, 255); // White
     doc.text(
       "© 2025 xAI Financial Services | All Rights Reserved",
       10,
@@ -192,7 +181,7 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
       width={{ base: "100px", md: "115px", lg: "130px" }}
       fontSize={{ base: "12px", md: "14px", lg: "16px" }}
     >
-      Download Report
+      Download
     </Button>
   );
 };
