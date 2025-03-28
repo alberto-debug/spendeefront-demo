@@ -12,7 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaChartLine, FaPiggyBank, FaChartPie, FaArrowRight, FaWallet } from "react-icons/fa";
+import {
+  FaChartLine,
+  FaPiggyBank,
+  FaChartPie,
+  FaArrowRight,
+  FaWallet,
+} from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -25,7 +31,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     // Simulate loading delay (e.g., 2 seconds) when the page opens
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    const timer = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timer); // Cleanup on unmount
   }, []);
 
@@ -112,7 +118,6 @@ const LandingPage = () => {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.5 }}
             />
-
             <Logo /> {/* Logo above text */}
             <Heading
               as="h1"
@@ -134,7 +139,11 @@ const LandingPage = () => {
               Take charge of your finances with a simple, powerful app designed
               to help you save, track, and succeed.
             </Text>
-            <Link as={RouterLink} to="/login" _hover={{ textDecoration: "none" }}>
+            <Link
+              as={RouterLink}
+              to="/login"
+              _hover={{ textDecoration: "none" }}
+            >
               <MotionButton
                 size="lg"
                 bg="linear-gradient(135deg, #34d399 0%, #059669 100%)"
@@ -198,7 +207,11 @@ const LandingPage = () => {
               intuitive tools.
             </Text>
             <Flex gap={6}>
-              <Link as={RouterLink} to="/register" _hover={{ textDecoration: "none" }}>
+              <Link
+                as={RouterLink}
+                to="/register"
+                _hover={{ textDecoration: "none" }}
+              >
                 <MotionButton
                   size="lg"
                   bg="black"
@@ -218,7 +231,11 @@ const LandingPage = () => {
                   Get Started
                 </MotionButton>
               </Link>
-              <Link as={RouterLink} to="/login" _hover={{ textDecoration: "none" }}>
+              <Link
+                as={RouterLink}
+                to="/login"
+                _hover={{ textDecoration: "none" }}
+              >
                 <MotionButton
                   size="lg"
                   bg="white"
@@ -255,7 +272,8 @@ const LandingPage = () => {
               {
                 icon: FaChartLine,
                 title: "Track Expenses",
-                description: "Log and categorize your daily expenses effortlessly.",
+                description:
+                  "Log and categorize your daily expenses effortlessly.",
               },
               {
                 icon: FaPiggyBank,
@@ -319,57 +337,59 @@ const LandingPage = () => {
           </Box>
         </Box>
 
-        {<Box maxW="1200px" mx="auto" py={20} px={{ md: 6, lg: 8 }}>
-          <Heading
-            as="h2"
-            size="xl"
-            textAlign="center"
-            mb={12}
-            fontWeight="bold"
-          >
-            What Our Users Say
-          </Heading>
-          <Flex direction="row" gap={8} justify="center" wrap="wrap">
-            {[
-              {
-                name: "John Doe",
-                testimonial:
-                  "This platform transformed how I manage my finances. Highly recommended!",
-              },
-              {
-                name: "Jane Smith",
-                testimonial:
-                  "User-friendly and incredibly helpful. The budgeting tools are a game-changer!",
-              },
-              {
-                name: "Mike Johnson",
-                testimonial:
-                  "The visualizations are top-notch. I see my progress instantly.",
-              },
-            ].map((testimonial, index) => (
-              <MotionBox
-                key={index}
-                flex={{ md: "1 1 300px", lg: "1 1 360px" }}
-                textAlign="center"
-                p={6}
-                bg="gray.50"
-                borderRadius="lg"
-                boxShadow="md"
-                _hover={{ transform: "translateY(-5px)", boxShadow: "lg" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.3 }}
-              >
-                <Text fontSize="md" color="gray.600" mb={4}>
-                  "{testimonial.testimonial}"
-                </Text>
-                <Text fontWeight="bold" fontSize="lg">
-                  - {testimonial.name}
-                </Text>
-              </MotionBox>
-            ))}
-          </Flex>
-        </Box>}
+        {
+          <Box maxW="1200px" mx="auto" py={20} px={{ md: 6, lg: 8 }}>
+            <Heading
+              as="h2"
+              size="xl"
+              textAlign="center"
+              mb={12}
+              fontWeight="bold"
+            >
+              What Our Users Say
+            </Heading>
+            <Flex direction="row" gap={8} justify="center" wrap="wrap">
+              {[
+                {
+                  name: "John Doe",
+                  testimonial:
+                    "This platform transformed how I manage my finances. Highly recommended!",
+                },
+                {
+                  name: "Jane Smith",
+                  testimonial:
+                    "User-friendly and incredibly helpful. The budgeting tools are a game-changer!",
+                },
+                {
+                  name: "Mike Johnson",
+                  testimonial:
+                    "The visualizations are top-notch. I see my progress instantly.",
+                },
+              ].map((testimonial, index) => (
+                <MotionBox
+                  key={index}
+                  flex={{ md: "1 1 300px", lg: "1 1 360px" }}
+                  textAlign="center"
+                  p={6}
+                  bg="gray.50"
+                  borderRadius="lg"
+                  boxShadow="md"
+                  _hover={{ transform: "translateY(-5px)", boxShadow: "lg" }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.3 }}
+                >
+                  <Text fontSize="md" color="gray.600" mb={4}>
+                    "{testimonial.testimonial}"
+                  </Text>
+                  <Text fontWeight="bold" fontSize="lg">
+                    - {testimonial.name}
+                  </Text>
+                </MotionBox>
+              ))}
+            </Flex>
+          </Box>
+        }
 
         {/* Call-to-Action Section */}
         <Box bg="white" py={20}>
@@ -387,7 +407,11 @@ const LandingPage = () => {
               Join thousands of users mastering their finances with our powerful
               tools.
             </Text>
-            <Link as={RouterLink} to="/register" _hover={{ textDecoration: "none" }}>
+            <Link
+              as={RouterLink}
+              to="/register"
+              _hover={{ textDecoration: "none" }}
+            >
               <MotionButton
                 size="lg"
                 bg="black"
