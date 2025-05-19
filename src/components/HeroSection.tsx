@@ -97,7 +97,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
           justify="space-between"
           gap={10}
         >
-          {/* Left Text */}
           <MotionBox
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -120,7 +119,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
             </VStack>
           </MotionBox>
 
-          {/* Cartão com decoração de pontos e traços no background */}
           <MotionBox
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -143,7 +141,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                 transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
               }}
             >
-              {/* Frente do cartão */}
               <Box
                 position="absolute"
                 w="100%"
@@ -156,8 +153,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
-
-                  // DECORAÇÃO: PONTOS E TRAÇOS NO BACKGROUND
                   backgroundImage: `
                     radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
                     repeating-linear-gradient(45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 2px, transparent 2px, transparent 6px),
@@ -165,10 +160,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   `,
                   backgroundSize: `20px 20px, 8px 8px, 6px 6px`,
                   backgroundPosition: `0 0, 0 0, 4px 4px`,
-                  backgroundColor: "black", // cor base do cartão, pode ajustar
+                  backgroundColor: "black",
                 }}
               >
-                {/* Logos */}
                 <Flex justify="space-between" mb={{ base: 4, sm: 6 }} flexShrink={0}>
                   <Icon
                     as={RiVisaLine}
@@ -185,7 +179,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   />
                 </Flex>
 
-                {/* Chip + Número */}
                 <Flex
                   justify="space-between"
                   align="center"
@@ -198,7 +191,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                     bg="linear-gradient(135deg, #f9e265, #a0843c)"
                     borderRadius="xs"
                     position="relative"
-                    boxShadow="0 0 10px 2px #f9e265 inset, 0 2px 6px rgba(0,0,0,0.5)"
+                    boxShadow="
+                      0 0 15px 5px #fff9b0 inset,
+                      0 0 12px 4px #f9e265 inset,
+                      0 2px 6px rgba(0,0,0,0.5)
+                    "
                   >
                     <Box
                       position="absolute"
@@ -241,7 +238,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   </Text>
                 </Flex>
 
-                {/* Nome e validade */}
                 <Flex justify="space-between" align="center" mt={4} flexShrink={0}>
                   <Box maxW="60%">
                     <Text
@@ -289,7 +285,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   </Box>
                 </Flex>
 
-                {/* Balance */}
                 <Flex justify="space-between" align="center" mt={6} flexShrink={0}>
                   <Box>
                     <Text fontSize={cardFontSize?.label} color="gray.400" userSelect="none">
@@ -320,7 +315,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   />
                 </Flex>
 
-                {/* Reflexo suave */}
                 <Box
                   position="absolute"
                   top={0}
@@ -341,7 +335,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                 />
               </Box>
 
-              {/* Verso do cartão */}
               <Box
                 bg="linear-gradient(135deg, #111111 0%, #000000 100%)"
                 position="absolute"
@@ -362,13 +355,51 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   h={{ base: "30px", sm: "40px" }}
                   borderRadius="sm"
                   mb={{ base: 4, sm: 6 }}
+                  boxShadow="inset 0 0 8px rgba(255,255,255,0.15)"
                 />
-                <Box flex="1" />
-                <Box
-                  bg="rgba(255,255,255,0.9)"
-                  h={{ base: "20px", sm: "30px" }}
-                  borderRadius="sm"
-                />
+
+                <Box flex="1" position="relative" mb={{ base: 4, sm: 6 }}>
+                  <Box
+                    position="absolute"
+                    top="20%"
+                    left="0"
+                    right="0"
+                    height="1px"
+                    bg="rgba(255,255,255,0.1)"
+                    boxShadow="0 0 4px rgba(255,255,255,0.05)"
+                  />
+                  <Box
+                    position="absolute"
+                    top="40%"
+                    left="0"
+                    right="0"
+                    height="1px"
+                    bg="rgba(255,255,255,0.1)"
+                    boxShadow="0 0 4px rgba(255,255,255,0.05)"
+                  />
+                  <Box
+                    position="absolute"
+                    top="60%"
+                    left="0"
+                    right="0"
+                    height="1px"
+                    bg="rgba(255,255,255,0.1)"
+                    boxShadow="0 0 4px rgba(255,255,255,0.05)"
+                  />
+                  <Box
+                    position="absolute"
+                    top="80%"
+                    left="0"
+                    right="0"
+                    height="1px"
+                    bg="rgba(255,255,255,0.1)"
+                    boxShadow="0 0 4px rgba(255,255,255,0.05)"
+                  />
+                </Box>
+
+                <Text fontSize="xs" color="gray.500" textAlign="center" userSelect="none">
+                  Authorized Signature — Not valid unless signed
+                </Text>
               </Box>
             </MotionBox>
           </MotionBox>
