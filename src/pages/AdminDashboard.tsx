@@ -1,3 +1,4 @@
+
 import {
   Box,
   Text,
@@ -15,9 +16,9 @@ import {
   IconButton,
   Flex,
   Grid,
-  GridItem,
   Card,
   CardHeader,
+  Collapse,
   Stat,
   StatLabel,
   StatNumber,
@@ -28,7 +29,12 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
-import { FaUser, FaTasks, FaChartLine, FaMoneyBillWave } from "react-icons/fa";
+import {
+  FaUser,
+  FaTasks,
+  FaChartLine,
+  FaMoneyBillWave,
+} from "react-icons/fa";
 
 interface UserSummary {
   id: number;
@@ -40,6 +46,10 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState<UserSummary[]>([]);
   const navigate = useNavigate();
   const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [expandedCards, setExpandedCards] = useState<boolean[]>(
+    Array(4).fill(false)
+  );
+
   const bg = "#1a202c";
   const color = "white";
 
@@ -63,6 +73,43 @@ const AdminDashboard = () => {
     fetchUsers();
   }, []);
 
+  const cardData = [
+    {
+      label: "Users",
+      number: users.length,
+      helpText: "Registered users",
+      icon: FaUser,
+      iconColor: "blue.400",
+    },
+    {
+      label: "Tasks",
+      number: 120,
+      helpText: "Assigned tasks",
+      icon: FaTasks,
+      iconColor: "teal.400",
+    },
+    {
+      label: "Transactions",
+      number: "$5,000",
+      helpText: "Processed",
+      icon: FaChartLine,
+      iconColor: "blue.400",
+    },
+    {
+      label: "Revenue",
+      number: "$10,000",
+      helpText: "Generated",
+      icon: FaMoneyBillWave,
+      iconColor: "teal.400",
+    },
+  ];
+
+  const toggleCard = (index: number) => {
+    const newExpanded = [...expandedCards];
+    newExpanded[index] = !newExpanded[index];
+    setExpandedCards(newExpanded);
+  };
+
   return (
     <Box bg={bg} minH="100vh" w="100vw" color={color}>
       <Box p={4}>
@@ -81,68 +128,49 @@ const AdminDashboard = () => {
           </Flex>
         </Box>
 
-        <Grid templateColumns={isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)"} gap={4} mb={6}>
-          <GridItem>
-            <Card bg="gray.900" color={color} boxShadow="lg" p={4} borderRadius="lg">
-              <CardHeader>
-                <Flex justifyContent="space-between" alignItems="center">
-                  <Stat>
-                    <StatLabel>Users</StatLabel>
-                    <StatNumber>{users.length}</StatNumber>
-                    <StatHelpText>Number of registered users</StatHelpText>
-                  </Stat>
-                  <Icon as={FaUser} boxSize={6} color="blue.500" />
-                </Flex>
-              </CardHeader>
-            </Card>
-          </GridItem>
-          <GridItem>
-            <Card bg="gray.900" color={color} boxShadow="lg" p={4} borderRadius="lg">
-              <CardHeader>
-                <Flex justifyContent="space-between" alignItems="center">
-                  <Stat>
-                    <StatLabel>Tasks</StatLabel>
-                    <StatNumber>120</StatNumber>
-                    <StatArrow type="increase" />
-                    <StatHelpText>Total number of tasks assigned</StatHelpText>
-                  </Stat>
-                  <Icon as={FaTasks} boxSize={6} color="teal.500" />
-                </Flex>
-              </CardHeader>
-            </Card>
-          </GridItem>
-          <GridItem>
-            <Card bg="gray.900" color={color} boxShadow="lg" p={4} borderRadius="lg">
-              <CardHeader>
-                <Flex justifyContent="space-between" alignItems="center">
-                  <Stat>
-                    <StatLabel>Transactions</StatLabel>
-                    <StatNumber>$5,000</StatNumber>
-                    <StatArrow type="increase" />
-                    <StatHelpText>Total transactions processed</StatHelpText>
-                  </Stat>
-                  <Icon as={FaChartLine} boxSize={6} color="blue.500" />
-                </Flex>
-              </CardHeader>
-            </Card>
-          </GridItem>
-          <GridItem>
-            <Card bg="gray.900" color={color} boxShadow="lg" p={4} borderRadius="lg">
-              <CardHeader>
-                <Flex justifyContent="space-between" alignItems="center">
-                  <Stat>
-                    <StatLabel>Revenue</StatLabel>
-                    <StatNumber>$10,000</StatNumber>
-                    <StatArrow type="increase" />
-                    <StatHelpText>Total revenue generated</StatHelpText>
-                  </Stat>
-                  <Icon as={FaMoneyBillWave} boxSize={6} color="teal.500" />
-                </Flex>
-              </CardHeader>
-            </Card>
-          </GridItem>
-        </Grid>
-
+        
+<Flex justifyContent="center" mb={20}>
+  <Grid
+    templateColumns="repeat(2, 1fr)"
+    gap={8}
+    maxW="780px" // adjust to control total width
+    w="100%"
+  >
+    {cardData.map((card, idx) => (
+      <Card
+        key={idx}
+        bg="gray.800"
+        color={color}
+        p={3}
+        borderRadius="md"
+        boxShadow="lg"
+        cursor="pointer"
+        maxW="320px"
+        w="100%"
+        onClick={() => toggleCard(idx)}
+        transition="all 0.2s"
+        _hover={{ boxShadow: "xl", transform: "scale(1.02)" }}
+      >
+        <CardHeader p={2}>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="md" fontWeight="bold">
+              {card.label}
+            </Text>
+            <Icon as={card.icon} boxSize={5} color={card.iconColor} />
+          </Flex>
+        </CardHeader>
+        <Collapse in={expandedCards[idx]} animateOpacity>
+          <Box mt={2} p={1}>
+            <Stat>
+              <StatNumber fontSize="xl">{card.number}</StatNumber>
+              <StatHelpText fontSize="sm">{card.helpText}</StatHelpText>
+            </Stat>
+          </Box>
+        </Collapse>
+      </Card>
+    ))}
+  </Grid>
+</Flex>
         <Flex justifyContent="center" mb={6}>
           <Button
             onClick={() => navigate("/admin/transactions")}
@@ -180,16 +208,17 @@ const AdminDashboard = () => {
         <TableContainer
           overflowY="auto"
           maxH="400px"
-          bg="gray.900"
-          borderRadius="lg"
+          bg="gray.800"
+          borderRadius="md"
           p={4}
+          boxShadow="md"
         >
-          <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
-            <Thead>
+          <Table variant="simple" size={isMobile ? "sm" : "md"}>
+            <Thead bg="gray.700">
               <Tr>
-                <Th>ID</Th>
-                <Th>Name</Th>
-                <Th>Email</Th>
+                <Th color="white">ID</Th>
+                <Th color="white">Name</Th>
+                <Th color="white">Email</Th>
               </Tr>
             </Thead>
             <Tbody>
