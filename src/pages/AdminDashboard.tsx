@@ -1,7 +1,40 @@
-import { Box, Text, Button, Table, Thead, Tbody, Tr, Th, Td, Heading, TableContainer, useMediaQuery, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Heading,
+  TableContainer,
+  useMediaQuery,
+  Link,
+  Grid,
+  GridItem,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  StatGroup,
+  Flex,
+  Icon,
+  IconButton,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiLogOut } from "react-icons/fi";
+import { FaUser, FaTasks, FaChartLine } from "react-icons/fa";
 
 interface UserSummary {
   id: number;
@@ -13,6 +46,9 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState<UserSummary[]>([]);
   const navigate = useNavigate();
   const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const { colorMode } = useColorMode();
+  const bg = useColorModeValue("white", "gray.800");
+  const color = useColorModeValue("gray.800", "white");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -32,10 +68,56 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <Box p={4} bg="gray.100" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto">
-      <Heading mb={6} color="teal.500" fontSize={isMobile ? "2xl" : "3xl"}>
+    <Box p={4} bg={bg} borderRadius="md" boxShadow="md" maxW="container.md" mx="auto">
+      <Heading mb={6} color={color} fontSize={isMobile ? "2xl" : "3xl"}>
         Admin Dashboard
       </Heading>
+      <Grid templateColumns={isMobile ? "repeat(1, 1fr)" : "repeat(3, 1fr)"} gap={6} mb={6}>
+        <GridItem>
+          <Card bg={bg} color={color}>
+            <CardHeader>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Stat>
+                  <StatLabel>Users</StatLabel>
+                  <StatNumber>{users.length}</StatNumber>
+                  <StatHelpText>Number of registered users</StatHelpText>
+                </Stat>
+                <Icon as={FaUser} boxSize={6} color="teal.500" />
+              </Flex>
+            </CardHeader>
+          </Card>
+        </GridItem>
+        <GridItem>
+          <Card bg={bg} color={color}>
+            <CardHeader>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Stat>
+                  <StatLabel>Tasks</StatLabel>
+                  <StatNumber>120</StatNumber>
+                  <StatArrow type="increase" />
+                  <StatHelpText>Total number of tasks assigned</StatHelpText>
+                </Stat>
+                <Icon as={FaTasks} boxSize={6} color="teal.500" />
+              </Flex>
+            </CardHeader>
+          </Card>
+        </GridItem>
+        <GridItem>
+          <Card bg={bg} color={color}>
+            <CardHeader>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Stat>
+                  <StatLabel>Transactions</StatLabel>
+                  <StatNumber>$5,000</StatNumber>
+                  <StatArrow type="increase" />
+                  <StatHelpText>Total transactions processed</StatHelpText>
+                </Stat>
+                <Icon as={FaChartLine} boxSize={6} color="teal.500" />
+              </Flex>
+            </CardHeader>
+          </Card>
+        </GridItem>
+      </Grid>
       <Button onClick={() => navigate("/admin/transactions")} colorScheme="teal" size={isMobile ? "sm" : "md"} mb={4}>
         User Transactions
       </Button>
@@ -62,9 +144,15 @@ const AdminDashboard = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      <Button mt={4} colorScheme="red" size={isMobile ? "xs" : "sm"} onClick={() => navigate("/admin/login")}>
-        Logout
-      </Button>
+      <Flex justifyContent="flex-end" mt={4}>
+        <IconButton
+          aria-label="Logout"
+          icon={<FiLogOut />}
+          colorScheme="red"
+          size={isMobile ? "xs" : "sm"}
+          onClick={() => navigate("/admin/login")}
+        />
+      </Flex>
     </Box>
   );
 };
