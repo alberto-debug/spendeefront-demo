@@ -42,6 +42,7 @@ interface UserSummary {
   email: string;
 }
 
+
 const AdminDashboard = () => {
   const [users, setUsers] = useState<UserSummary[]>([]);
   const navigate = useNavigate();
