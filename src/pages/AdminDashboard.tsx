@@ -74,7 +74,7 @@ const AdminDashboard = () => {
       </Heading>
       <Grid templateColumns={isMobile ? "repeat(2, 1fr)" : "repeat(3, 1fr)"} gap={4} mb={6}>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+          <Card bg="blue.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -82,13 +82,13 @@ const AdminDashboard = () => {
                   <StatNumber>{users.length}</StatNumber>
                   <StatHelpText>Number of registered users</StatHelpText>
                 </Stat>
-                <Icon as={FaUser} boxSize={6} color="teal.500" />
+                <Icon as={FaUser} boxSize={6} color="blue.500" />
               </Flex>
             </CardHeader>
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+          <Card bg="teal.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+          <Card bg="blue.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -112,13 +112,13 @@ const AdminDashboard = () => {
                   <StatArrow type="increase" />
                   <StatHelpText>Total transactions processed</StatHelpText>
                 </Stat>
-                <Icon as={FaChartLine} boxSize={6} color="teal.500" />
+                <Icon as={FaChartLine} boxSize={6} color="blue.500" />
               </Flex>
             </CardHeader>
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+          <Card bg="teal.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
