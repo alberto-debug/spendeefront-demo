@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -8,12 +9,11 @@ import {
   Container,
   Heading,
   VStack,
+  Input,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { FaEye, FaEyeSlash, FaWifi, FaDownload } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaWifi } from "react-icons/fa";
 import { RiVisaLine } from "react-icons/ri";
-
-import DownloadPdfButton from "./DownloadPdfButton";
 
 const MotionBox = motion(Box);
 const MotionFlex = motion(Flex);
@@ -23,7 +23,19 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
-  const [showBalance, setShowBalance] = useState(false); // Inicializa como false para censurar o balance por padrão
+  const [showBalance, setShowBalance] = useState(false);
+  const [cardName, setCardName] = useState("João C. Santos");
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("cardholderName");
+    if (storedName) setCardName(storedName);
+  }, []);
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setCardName(name);
+    localStorage.setItem("cardholderName", name);
+  };
 
   return (
     <Box
@@ -32,21 +44,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
       py={{ base: 8, md: 16 }}
       position="relative"
       overflow="hidden"
-      minH={{ base: "50vh", md: "auto" }}
       display="flex"
       alignItems="center"
     >
-      <Container maxW="container.xl" py={{ base: 4, md: 8 }}>
+      <Container maxW="container.xl">
         <MotionFlex
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           direction={{ base: "column", lg: "row" }}
-          align={{ base: "center", lg: "center" }}
+          align="center"
           justify="space-between"
-          gap={{ base: 10, lg: 20 }}
+          gap={10}
         >
-          {/* Left Content */}
+          {/* Texto */}
           <MotionBox
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -54,174 +65,164 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
             flex="1"
             textAlign={{ base: "center", lg: "left" }}
           >
-            <VStack
-              align={{ base: "center", lg: "flex-start" }}
-              spacing={6}
-              maxW="600px"
-            >
+            <VStack align="start" spacing={6} maxW="600px">
               <Heading
-                as="h1"
                 fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
                 fontWeight="bold"
-                bgGradient="linear(to-r, #00ff5f, #B3EA1B 100%)"
+                bgGradient="linear(to-r, #00ff5f, #B3EA1B)"
                 bgClip="text"
-                lineHeight="1.2"
               >
                 Smart Money Management
               </Heading>
-              <Text
-                fontSize={{ base: "lg", md: "xl" }}
-                color="whiteAlpha.800"
-                maxW="500px"
-              >
-                Track your expenses in real-time and make informed financial
-                decisions with our intuitive dashboard.
+              <Text fontSize="xl" color="whiteAlpha.800">
+                Controle seu dinheiro com um cartão moderno e inteligente.
               </Text>
             </VStack>
           </MotionBox>
 
-          {/* Card Container */}
+          {/* Cartão */}
           <MotionBox
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            w={{ base: "100%", sm: "450px", md: "500px" }}
+            w={{ base: "95vw", sm: "460px", md: "520px" }}
+            maxW="600px"
             flexShrink={0}
           >
             <MotionBox
-              bg="linear-gradient(135deg, #00ff88 0%, #00ff5f 100%)"
+              bg="linear-gradient(135deg, #000000 0%, #1a1a1a 100%)"
               borderRadius="2xl"
-              p={{ base: 6, md: 8 }}
+              p={6}
+              h={{ base: "220px", sm: "260px", md: "300px" }}
+              boxShadow="0px 0px 30px rgba(0, 0, 0, 0.9)"
               position="relative"
-              boxShadow="2xl"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.3 }}
+              overflow="visible"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
             >
-              {/* Top Section */}
-              <Flex
-                justify="space-between"
-                align="center"
-                mb={{ base: 6, md: 8 }}
-              >
-                <Icon
-                  as={RiVisaLine}
-                  w={{ base: 12, md: 16 }}
-                  h={{ base: 6, md: 8 }}
-                  color="gray.800"
-                />
+              {/* Logos */}
+              <Flex justify="space-between" mb={{ base: 3, md: 4 }}>
+                <Icon as={RiVisaLine} w={{ base: 10, md: 12 }} h={{ base: 6, md: 8 }} color="white" />
                 <Icon
                   as={FaWifi}
                   w={{ base: 5, md: 6 }}
                   h={{ base: 5, md: 6 }}
                   transform="rotate(90deg)"
-                  color="gray.800"
-                  opacity={0.8}
+                  color="whiteAlpha.700"
                 />
               </Flex>
 
-              {/* Middle Section */}
-              <Flex
-                justify="space-between"
-                align="center"
-                mb={{ base: 6, md: 8 }}
-              >
-                {/* Chip */}
+              {/* Chip e Número */}
+              <Flex justify="space-between" align="center" mb={{ base: 3, md: 4 }}>
                 <Box
-                  w={{ base: "40px", md: "45px" }}
-                  h={{ base: "30px", md: "35px" }}
-                  bg="linear-gradient(135deg, #FFD700 0%, #B8860B 100%)"
-                  borderRadius="sm"
+                  w="50px"
+                  h="35px"
+                  bg="linear-gradient(135deg, #ffdd55, #b8860b, #fff89a)"
+                  borderRadius="xs"
+                  boxShadow="0 0 10px 2px rgba(255, 221, 85, 0.7), inset 0 0 6px rgba(255, 255, 150, 0.9)"
                   position="relative"
-                  overflow="hidden"
-                  _after={{
-                    content: '""',
-                    position: "absolute",
-                    top: "45%",
-                    left: 0,
-                    right: 0,
-                    height: "2px",
-                    bg: "rgba(0,0,0,0.2)",
-                  }}
-                />
-
-                {/* Card Number */}
-                <Text
-                  color="gray.800"
-                  fontSize={{ base: "md", md: "lg" }}
-                  letterSpacing={2}
-                  fontFamily="monospace"
                 >
-                  •••• •••• •••• 5466
+                  <Box
+                    position="absolute"
+                    top="45%"
+                    left="10%"
+                    right="10%"
+                    height="2px"
+                    bg="rgba(0,0,0,0.4)"
+                  />
+                </Box>
+                <Text
+                  fontSize={{ base: "xs", sm: "sm", md: "md" }}
+                  fontFamily="'Courier New', monospace"
+                  color="white"
+                  letterSpacing="2px"
+                  whiteSpace="nowrap"
+                >
+                  4929 7534 2315 5466
                 </Text>
               </Flex>
 
-              {/* Balance Section */}
-              <Flex
-                justify="space-between"
-                align="flex-end"
-                mt={{ base: 6, md: 8 }}
-              >
-                <Box>
-                  <Text
-                    color="gray.700"
-                    fontSize={{ base: "sm", md: "md" }}
+              {/* Nome e Validade */}
+              <Flex justify="space-between" align="center" mt={0} mb={{ base: 2, md: 3 }}>
+                <Box maxW={{ base: "55%", sm: "70%", md: "60%" }}>
+                  <Text fontSize={{ base: "xs", md: "sm" }} color="gray.400" mb={1}>
+                    CARDHOLDER
+                  </Text>
+                  <Input
+                    variant="unstyled"
+                    value={cardName}
+                    onChange={handleNameChange}
+                    color="white"
                     fontWeight="medium"
-                    mb={2}
-                  >
+                    fontSize={{ base: "sm", md: "md" }}
+                    maxW="100%"
+                    borderBottom="1px solid rgba(255,255,255,0.2)"
+                    _focus={{ borderBottom: "1px solid white" }}
+                    spellCheck={false}
+                    autoComplete="off"
+                    px={0}
+                    py={1}
+                    maxLength={30}
+                  />
+                </Box>
+                <Box>
+                  <Text fontSize={{ base: "xs", md: "sm" }} color="gray.400" mb={1}>
+                    EXP
+                  </Text>
+                  <Text fontSize={{ base: "sm", md: "md" }} color="white" fontWeight="medium">
+                    04/28
+                  </Text>
+                </Box>
+              </Flex>
+
+              {/* Saldo */}
+              <Flex justify="space-between" align="center" mt={0}>
+                <Box>
+                  <Text fontSize={{ base: "xs", md: "sm" }} color="gray.400">
                     Balance
                   </Text>
                   <Text
-                    color="gray.900"
-                    fontSize={{ base: "2xl", md: "3xl" }}
+                    fontSize={{ base: "lg", md: "xl" }}
                     fontWeight="bold"
+                    color="white"
                     fontFamily="monospace"
-                    lineHeight="1"
                     style={{
-                      filter: showBalance ? "none" : "blur(2px)",
+                      filter: showBalance ? "none" : "blur(3px)",
                     }}
+                    whiteSpace="nowrap"
                   >
                     {showBalance ? `$${balance.toFixed(2)}` : "••••••"}
                   </Text>
                 </Box>
                 <IconButton
-                  aria-label="Toggle balance visibility"
                   icon={showBalance ? <FaEyeSlash /> : <FaEye />}
+                  aria-label="Toggle balance"
+                  colorScheme="whiteAlpha"
                   variant="ghost"
-                  size="md"
-                  color="gray.800"
-                  _hover={{ bg: "whiteAlpha.300" }}
                   onClick={() => setShowBalance(!showBalance)}
+                  size={{ base: "sm", md: "md" }}
+                  ml={2}
                 />
               </Flex>
 
-              {/* Decorative Elements */}
+              {/* Brilho */}
               <Box
                 position="absolute"
                 top={0}
-                right={0}
-                bottom={0}
                 left={0}
+                w="100%"
+                h="100%"
                 borderRadius="2xl"
-                bg="linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%)"
-                pointerEvents="none"
-              />
-
-              {/* Holographic Effect */}
-              <Box
-                position="absolute"
-                top={0}
-                right={0}
-                bottom={0}
-                left={0}
-                borderRadius="2xl"
-                background="linear-gradient(125deg, rgba(255,255,255,0.1) 5%, rgba(255,255,255,0.6) 40%, rgba(255,255,255,0.1) 50%)"
-                backgroundSize="250% 100%"
-                animation="shine 9s infinite linear"
-                boxShadow="0 4px 20px rgba(255, 255, 255, 0.2)"
+                background="linear-gradient(115deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.5) 40%, rgba(255,255,255,0.15) 70%)"
+                backgroundSize="200% 100%"
+                animation="shine 6s infinite linear"
                 sx={{
                   "@keyframes shine": {
-                    "0%": { backgroundPosition: "250% 0" },
-                    "100%": { backgroundPosition: "-250% 0" },
+                    "0%": { backgroundPosition: "200% 0" },
+                    "100%": { backgroundPosition: "-200% 0" },
                   },
                 }}
                 pointerEvents="none"
@@ -230,19 +231,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
           </MotionBox>
         </MotionFlex>
       </Container>
-
-      {/* Background Decorative Elements */}
-      <Box
-        position="absolute"
-        top="-20%"
-        right="-10%"
-        w={{ base: "300px", md: "600px" }}
-        h={{ base: "300px", md: "600px" }}
-        bg="radial-gradient(circle, rgba(0,255,255,0.1) 0%, rgba(0,255,255,0) 70%)"
-        borderRadius="full"
-        filter="blur(60px)"
-        zIndex={0}
-      />
     </Box>
   );
 };
