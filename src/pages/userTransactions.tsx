@@ -1,7 +1,26 @@
-import { Box, Text, Button, Table, Thead, Tbody, Tr, Th, Td, Heading, TableContainer, useMediaQuery, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Heading,
+  TableContainer,
+  useMediaQuery,
+  Link,
+  VStack,
+  HStack,
+  IconButton,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 
 interface UserSummary {
   id: number;
@@ -23,6 +42,10 @@ const UserTransactions = () => {
   const navigate = useNavigate();
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { email } = useParams();
+  const bg = useColorModeValue("white", "gray.800");
+  const color = useColorModeValue("gray.800", "white");
+  const navbarBg = useColorModeValue("blue.500", "blue.900");
+  const navbarColor = useColorModeValue("white", "gray.200");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -63,14 +86,29 @@ const UserTransactions = () => {
     navigate(`/admin/transactions/${email}`);
   };
 
+  const handleGoBack = () => {
+    navigate(-1); // Navigate back to the previous page
+  };
+
   return (
-    <Box p={4} bg="gray.100" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto">
-      <Heading mb={6} color="teal.500" fontSize={isMobile ? "2xl" : "3xl"}>
-        User Transactions
-      </Heading>
+    <Box p={4} bg={bg} borderRadius="md" boxShadow="md" maxW="container.md" mx="auto">
+      <Box bg={navbarBg} color={navbarColor} p={4} borderRadius="md" mb={6}>
+        <HStack justifyContent="space-between" alignItems="center">
+          <Heading fontSize={isMobile ? "2xl" : "3xl"}>
+            User Transactions
+          </Heading>
+          <IconButton
+            aria-label="Go Back"
+            icon={<FiArrowLeft />}
+            colorScheme="whiteAlpha"
+            size={isMobile ? "xs" : "sm"}
+            onClick={handleGoBack}
+          />
+        </HStack>
+      </Box>
       {!selectedUser ? (
         <TableContainer>
-          <Table variant="striped" colorScheme="teal" size={isMobile ? "sm" : "md"}>
+          <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
             <Thead>
               <Tr>
                 <Th>ID</Th>
@@ -91,7 +129,7 @@ const UserTransactions = () => {
         </TableContainer>
       ) : (
         <TableContainer>
-          <Table variant="striped" colorScheme="teal" size={isMobile ? "sm" : "md"}>
+          <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
             <Thead>
               <Tr>
                 <Th>ID</Th>
@@ -113,9 +151,6 @@ const UserTransactions = () => {
           </Table>
         </TableContainer>
       )}
-      <Button mt={4} colorScheme="blue" size={isMobile ? "xs" : "sm"} onClick={() => navigate("/admin/dashboard")}>
-        Go Back
-      </Button>
     </Box>
   );
 };
