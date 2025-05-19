@@ -34,14 +34,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
-import { FaUser, FaTasks, FaChartLine } from "react-icons/fa";
+import { FaUser, FaTasks, FaChartLine, FaMoneyBillWave, FaUsers } from "react-icons/fa";
 
 interface UserSummary {
   id: number;
   name: string;
   email: string;
 }
-
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState<UserSummary[]>([]);
@@ -73,9 +72,9 @@ const AdminDashboard = () => {
       <Heading mb={6} color={color} fontSize={isMobile ? "2xl" : "4xl"} textAlign="center">
         Admin Dashboard
       </Heading>
-      <Grid templateColumns={isMobile ? "repeat(1, 1fr)" : "repeat(3, 1fr)"} gap={4} mb={6}>
+      <Grid templateColumns={isMobile ? "repeat(2, 1fr)" : "repeat(3, 1fr)"} gap={4} mb={6}>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg">
+          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -89,7 +88,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg">
+          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -104,7 +103,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg">
+          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -114,6 +113,21 @@ const AdminDashboard = () => {
                   <StatHelpText>Total transactions processed</StatHelpText>
                 </Stat>
                 <Icon as={FaChartLine} boxSize={6} color="teal.500" />
+              </Flex>
+            </CardHeader>
+          </Card>
+        </GridItem>
+        <GridItem>
+          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+            <CardHeader>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Stat>
+                  <StatLabel>Revenue</StatLabel>
+                  <StatNumber>$10,000</StatNumber>
+                  <StatArrow type="increase" />
+                  <StatHelpText>Total revenue generated</StatHelpText>
+                </Stat>
+                <Icon as={FaMoneyBillWave} boxSize={6} color="teal.500" />
               </Flex>
             </CardHeader>
           </Card>
