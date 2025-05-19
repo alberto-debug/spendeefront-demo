@@ -47,10 +47,10 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { colorMode } = useColorMode();
-  const bg = useColorModeValue("white", "gray.800");
-  const color = useColorModeValue("gray.800", "white");
-  const navbarBg = useColorModeValue("blue.500", "blue.900");
-  const navbarColor = useColorModeValue("white", "gray.200");
+  const bg = "#1a202c"; // Dark background
+  const color = "white"; // Light text
+  const navbarBg = "#1a202c"; // Dark navbar background
+  const navbarColor = "white"; // Light navbar text
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -87,7 +87,7 @@ const AdminDashboard = () => {
       </Box>
       <Grid templateColumns={isMobile ? "repeat(2, 1fr)" : "repeat(3, 1fr)"} gap={4} mb={6}>
         <GridItem>
-          <Card bg="blue.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+          <Card bg="gray.900" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -101,7 +101,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg="teal.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+          <Card bg="gray.900" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -116,7 +116,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg="blue.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+          <Card bg="gray.900" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -131,7 +131,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg="teal.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+          <Card bg="gray.900" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -149,7 +149,14 @@ const AdminDashboard = () => {
       <Flex justifyContent="center" mb={6}>
         <Button
           onClick={() => navigate("/admin/transactions")}
-          colorScheme="blue"
+          bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+          color="white"
+          _hover={{
+            bg: "linear-gradient(135deg, #5a6cd8 0%, #6a3e92 100%)",
+          }}
+          _active={{
+            bg: "linear-gradient(135deg, #4e5ec6 0%, #5e3482 100%)",
+          }}
           size={isMobile ? "sm" : "md"}
           mr={4}
           boxShadow="md"
@@ -158,7 +165,14 @@ const AdminDashboard = () => {
         </Button>
         <Button
           onClick={() => navigate("/admin/tasks")}
-          colorScheme="blue"
+          bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+          color="white"
+          _hover={{
+            bg: "linear-gradient(135deg, #5a6cd8 0%, #6a3e92 100%)",
+          }}
+          _active={{
+            bg: "linear-gradient(135deg, #4e5ec6 0%, #5e3482 100%)",
+          }}
           size={isMobile ? "sm" : "md"}
           boxShadow="md"
         >
