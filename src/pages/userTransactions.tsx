@@ -1,7 +1,7 @@
+
 import {
   Box,
   Text,
-  Button,
   Table,
   Thead,
   Tbody,
@@ -9,13 +9,9 @@ import {
   Th,
   Td,
   Heading,
-  TableContainer,
   useMediaQuery,
-  Link,
-  VStack,
-  HStack,
   IconButton,
-  useColorModeValue,
+  Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -42,10 +38,9 @@ const UserTransactions = () => {
   const navigate = useNavigate();
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { email } = useParams();
-  const bg = useColorModeValue("white", "gray.800");
-  const color = useColorModeValue("gray.800", "white");
-  const navbarBg = useColorModeValue("blue.500", "blue.900");
-  const navbarColor = useColorModeValue("white", "gray.200");
+
+  const bg = "#1a202c";
+  const color = "white";
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -56,47 +51,48 @@ const UserTransactions = () => {
           },
         });
         setUsers(response.data);
+
+        if (email) {
+          const user = response.data.find((u) => u.email === email) || null;
+          setSelectedUser(user);
+        }
       } catch (error) {
         console.error("Failed to fetch users:", error);
       }
     };
 
-    if (email) {
-      const fetchUserTransactions = async () => {
-        try {
-          const response = await axios.get<Transaction[]>(`http://localhost:8080/admin/users/${email}/transactions`, {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("auth-token")}`,
-            },
-          });
-          setTransactions(response.data);
-          setSelectedUser(users.find(user => user.email === email) || null);
-        } catch (error) {
-          console.error("Failed to fetch transactions:", error);
-        }
-      };
+    const fetchUserTransactions = async () => {
+      if (!email) return;
 
-      fetchUserTransactions();
-    } else {
-      fetchUsers();
-    }
-  }, [email, users]);
+      try {
+        const response = await axios.get<Transaction[]>(`http://localhost:8080/admin/users/${email}/transactions`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("auth-token")}`,
+          },
+        });
+        setTransactions(response.data);
+      } catch (error) {
+        console.error("Failed to fetch transactions:", error);
+      }
+    };
+
+    fetchUsers();
+    if (email) fetchUserTransactions();
+  }, [email]);
 
   const handleUserClick = (email: string) => {
     navigate(`/admin/transactions/${email}`);
   };
 
   const handleGoBack = () => {
-    navigate(-1); // Navigate back to the previous page
+    navigate(-1);
   };
 
   return (
-    <Box p={4} bg={bg} borderRadius="md" boxShadow="md" maxW="container.md" mx="auto">
-      <Box bg={navbarBg} color={navbarColor} p={4} borderRadius="md" mb={6}>
-        <HStack justifyContent="space-between" alignItems="center">
-          <Heading fontSize={isMobile ? "2xl" : "3xl"}>
-            User Transactions
-          </Heading>
+    <Box bg={bg} minH="100vh" w="100vw" color={color} p={4}>
+      <Box p={4} bg={bg} mb={6}>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Heading fontSize={isMobile ? "2xl" : "4xl"}>User Transactions</Heading>
           <IconButton
             aria-label="Go Back"
             icon={<FiArrowLeft />}
@@ -104,21 +100,35 @@ const UserTransactions = () => {
             size={isMobile ? "xs" : "sm"}
             onClick={handleGoBack}
           />
-        </HStack>
+        </Flex>
       </Box>
-      {!selectedUser ? (
-        <TableContainer>
-          <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
-            <Thead>
+
+      <Box
+        bg="gray.800"
+        borderRadius="md"
+        boxShadow="md"
+        p={4}
+        maxW="container.md"
+        mx="auto"
+        overflowX="auto"
+      >
+        {!selectedUser ? (
+          <Table variant="simple" size={isMobile ? "sm" : "md"} colorScheme="teal">
+            <Thead bg="gray.700">
               <Tr>
-                <Th>ID</Th>
-                <Th>Name</Th>
-                <Th>Email</Th>
+                <Th color="white">ID</Th>
+                <Th color="white">Name</Th>
+                <Th color="white">Email</Th>
               </Tr>
             </Thead>
             <Tbody>
               {users.map((user) => (
-                <Tr key={user.id} onClick={() => handleUserClick(user.email)} cursor="pointer">
+                <Tr
+                  key={user.id}
+                  onClick={() => handleUserClick(user.email)}
+                  cursor="pointer"
+                  _hover={{ bg: "gray.700" }}
+                >
                   <Td>{user.id}</Td>
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
@@ -126,31 +136,36 @@ const UserTransactions = () => {
               ))}
             </Tbody>
           </Table>
-        </TableContainer>
-      ) : (
-        <TableContainer>
-          <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
-            <Thead>
-              <Tr>
-                <Th>ID</Th>
-                <Th>Amount</Th>
-                <Th>Date</Th>
-                <Th>Description</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {transactions.map((transaction) => (
-                <Tr key={transaction.id}>
-                  <Td>{transaction.id}</Td>
-                  <Td>{transaction.amount}</Td>
-                  <Td>{transaction.date}</Td>
-                  <Td>{transaction.description}</Td>
+        ) : (
+          <>
+            <Box mb={4}>
+              <Text fontWeight="bold" fontSize="lg">
+                Transactions for: {selectedUser.name} ({selectedUser.email})
+              </Text>
+            </Box>
+            <Table variant="simple" size={isMobile ? "sm" : "md"} colorScheme="teal">
+              <Thead bg="gray.700">
+                <Tr>
+                  <Th color="white">ID</Th>
+                  <Th color="white">Amount</Th>
+                  <Th color="white">Date</Th>
+                  <Th color="white">Description</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      )}
+              </Thead>
+              <Tbody>
+                {transactions.map((transaction) => (
+                  <Tr key={transaction.id} _hover={{ bg: "gray.700" }}>
+                    <Td>{transaction.id}</Td>
+                    <Td>{transaction.amount}</Td>
+                    <Td>{transaction.date}</Td>
+                    <Td>{transaction.description}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </>
+        )}
+      </Box>
     </Box>
   );
 };
