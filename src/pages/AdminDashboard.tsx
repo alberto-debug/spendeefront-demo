@@ -72,9 +72,9 @@ const AdminDashboard = () => {
       <Heading mb={6} color={color} fontSize={isMobile ? "2xl" : "4xl"} textAlign="center">
         Admin Dashboard
       </Heading>
-      <Grid templateColumns={isMobile ? "repeat(1, 1fr)" : "repeat(3, 1fr)"} gap={6} mb={6}>
+      <Grid templateColumns={isMobile ? "repeat(1, 1fr)" : "repeat(3, 1fr)"} gap={4} mb={6}>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4}>
+          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -88,7 +88,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4}>
+          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color} boxShadow="lg" p={4}>
+          <Card bg={bg} color={color} boxShadow="lg" p={4} borderRadius="lg">
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -121,7 +121,7 @@ const AdminDashboard = () => {
       <Flex justifyContent="center" mb={6}>
         <Button
           onClick={() => navigate("/admin/transactions")}
-          colorScheme="teal"
+          colorScheme="blue"
           size={isMobile ? "sm" : "md"}
           mr={4}
           boxShadow="md"
@@ -130,7 +130,7 @@ const AdminDashboard = () => {
         </Button>
         <Button
           onClick={() => navigate("/admin/tasks")}
-          colorScheme="teal"
+          colorScheme="blue"
           size={isMobile ? "sm" : "md"}
           boxShadow="md"
         >
@@ -138,7 +138,7 @@ const AdminDashboard = () => {
         </Button>
       </Flex>
       <TableContainer>
-        <Table variant="striped" colorScheme="teal" size={isMobile ? "sm" : "md"}>
+        <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
           <Thead>
             <Tr>
               <Th>ID</Th>
