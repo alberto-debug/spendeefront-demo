@@ -1,5 +1,5 @@
 // src/pages/AdminDashboard.tsx
-import { Box, Text, Button, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import { Box, Text, Button, Table, Thead, Tbody, Tr, Th, Td, Heading } from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
 
   return (
     <Box p={4}>
-      <Heading mb={6}>Admin Dashboard</Heading>
+      <Heading mb={6}>Adman Dashboard</Heading>
       <Table variant="simple">
         <Thead>
           <Tr>

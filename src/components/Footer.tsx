@@ -23,7 +23,6 @@ import {
 import { motion } from "framer-motion";
 
 const MotionBox = motion(Box);
-
 const Footer = () => {
   const hoverColor = useColorModeValue("cyan.400", "cyan.300");
 
