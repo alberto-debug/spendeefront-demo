@@ -20,10 +20,8 @@ import {
   CardHeader,
   Collapse,
   Stat,
-  StatLabel,
-  StatNumber,
   StatHelpText,
-  StatArrow,
+  StatNumber,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -50,7 +48,7 @@ const AdminDashboard = () => {
     Array(4).fill(false)
   );
 
-  const bg = "#1a202c";
+  const bg = "#1a202c"; // original dark background
   const color = "white";
 
   useEffect(() => {
@@ -73,34 +71,39 @@ const AdminDashboard = () => {
     fetchUsers();
   }, []);
 
+  // Vibrant color schemes for cards only
   const cardData = [
     {
       label: "Users",
       number: users.length,
       helpText: "Registered users",
       icon: FaUser,
-      iconColor: "blue.400",
+      bg: "linear-gradient(135deg, #ff416c, #ff4b2b)",  // pink/red gradient
+      iconColor: "yellow.200",
     },
     {
       label: "Tasks",
       number: 120,
       helpText: "Assigned tasks",
       icon: FaTasks,
-      iconColor: "teal.400",
+      bg: "linear-gradient(135deg, #56ab2f, #a8e063)",  // green gradient
+      iconColor: "white",
     },
     {
       label: "Transactions",
       number: "$5,000",
       helpText: "Processed",
       icon: FaChartLine,
-      iconColor: "blue.400",
+      bg: "linear-gradient(135deg, #614385, #516395)",  // purple/blue gradient
+      iconColor: "cyan.200",
     },
     {
       label: "Revenue",
       number: "$10,000",
       helpText: "Generated",
       icon: FaMoneyBillWave,
-      iconColor: "teal.400",
+      bg: "linear-gradient(135deg, #f7971e, #ffd200)",  // yellow/gold gradient
+      iconColor: "green.900",
     },
   ];
 
@@ -128,49 +131,49 @@ const AdminDashboard = () => {
           </Flex>
         </Box>
 
-        
-<Flex justifyContent="center" mb={20}>
-  <Grid
-    templateColumns="repeat(2, 1fr)"
-    gap={8}
-    maxW="780px" // adjust to control total width
-    w="100%"
-  >
-    {cardData.map((card, idx) => (
-      <Card
-        key={idx}
-        bg="gray.800"
-        color={color}
-        p={3}
-        borderRadius="md"
-        boxShadow="lg"
-        cursor="pointer"
-        maxW="320px"
-        w="100%"
-        onClick={() => toggleCard(idx)}
-        transition="all 0.2s"
-        _hover={{ boxShadow: "xl", transform: "scale(1.02)" }}
-      >
-        <CardHeader p={2}>
-          <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="md" fontWeight="bold">
-              {card.label}
-            </Text>
-            <Icon as={card.icon} boxSize={5} color={card.iconColor} />
-          </Flex>
-        </CardHeader>
-        <Collapse in={expandedCards[idx]} animateOpacity>
-          <Box mt={2} p={1}>
-            <Stat>
-              <StatNumber fontSize="xl">{card.number}</StatNumber>
-              <StatHelpText fontSize="sm">{card.helpText}</StatHelpText>
-            </Stat>
-          </Box>
-        </Collapse>
-      </Card>
-    ))}
-  </Grid>
-</Flex>
+        <Flex justifyContent="center" mb={20}>
+          <Grid
+            templateColumns="repeat(2, 1fr)"
+            gap={8}
+            maxW="780px"
+            w="100%"
+          >
+            {cardData.map((card, idx) => (
+              <Card
+                key={idx}
+                bg={card.bg}
+                color={color}
+                p={3}
+                borderRadius="md"
+                boxShadow="lg"
+                cursor="pointer"
+                maxW="320px"
+                w="100%"
+                onClick={() => toggleCard(idx)}
+                transition="all 0.2s"
+                _hover={{ boxShadow: "xl", transform: "scale(1.02)" }}
+              >
+                <CardHeader p={2}>
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Text fontSize="md" fontWeight="bold">
+                      {card.label}
+                    </Text>
+                    <Icon as={card.icon} boxSize={5} color={card.iconColor} />
+                  </Flex>
+                </CardHeader>
+                <Collapse in={expandedCards[idx]} animateOpacity>
+                  <Box mt={2} p={1}>
+                    <Stat>
+                      <StatNumber fontSize="xl">{card.number}</StatNumber>
+                      <StatHelpText fontSize="sm">{card.helpText}</StatHelpText>
+                    </Stat>
+                  </Box>
+                </Collapse>
+              </Card>
+            ))}
+          </Grid>
+        </Flex>
+
         <Flex justifyContent="center" mb={6}>
           <Button
             onClick={() => navigate("/admin/transactions")}
