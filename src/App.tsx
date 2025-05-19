@@ -11,6 +11,7 @@ import DashboardPage from "./pages/Dashboard";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AuthGuard from "./services/authguard";
 import LandingPage from "./pages/LandingPage";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const App = () => {
   return (
