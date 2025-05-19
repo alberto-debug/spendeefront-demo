@@ -68,13 +68,13 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <Box p={4} bg={bg} borderRadius="md" boxShadow="md" maxW="container.md" mx="auto">
-      <Heading mb={6} color={color} fontSize={isMobile ? "2xl" : "3xl"}>
+    <Box p={4} bg={bg} borderRadius="md" boxShadow="md" maxW="container.lg" mx="auto">
+      <Heading mb={6} color={color} fontSize={isMobile ? "2xl" : "4xl"} textAlign="center">
         Admin Dashboard
       </Heading>
       <Grid templateColumns={isMobile ? "repeat(1, 1fr)" : "repeat(3, 1fr)"} gap={6} mb={6}>
         <GridItem>
-          <Card bg={bg} color={color}>
+          <Card bg={bg} color={color} boxShadow="lg" p={4}>
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -88,7 +88,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color}>
+          <Card bg={bg} color={color} boxShadow="lg" p={4}>
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
         <GridItem>
-          <Card bg={bg} color={color}>
+          <Card bg={bg} color={color} boxShadow="lg" p={4}>
             <CardHeader>
               <Flex justifyContent="space-between" alignItems="center">
                 <Stat>
@@ -118,12 +118,25 @@ const AdminDashboard = () => {
           </Card>
         </GridItem>
       </Grid>
-      <Button onClick={() => navigate("/admin/transactions")} colorScheme="teal" size={isMobile ? "sm" : "md"} mb={4}>
-        User Transactions
-      </Button>
-      <Button onClick={() => navigate("/admin/tasks")} colorScheme="teal" size={isMobile ? "sm" : "md"} mb={4}>
-        User Tasks
-      </Button>
+      <Flex justifyContent="center" mb={6}>
+        <Button
+          onClick={() => navigate("/admin/transactions")}
+          colorScheme="teal"
+          size={isMobile ? "sm" : "md"}
+          mr={4}
+          boxShadow="md"
+        >
+          User Transactions
+        </Button>
+        <Button
+          onClick={() => navigate("/admin/tasks")}
+          colorScheme="teal"
+          size={isMobile ? "sm" : "md"}
+          boxShadow="md"
+        >
+          User Tasks
+        </Button>
+      </Flex>
       <TableContainer>
         <Table variant="striped" colorScheme="teal" size={isMobile ? "sm" : "md"}>
           <Thead>
