@@ -48,7 +48,7 @@ const AdminDashboard = () => {
     Array(4).fill(false)
   );
 
-  const bg = "#1a202c"; // original dark background
+  const bg = "#1a202c"; // dark background
   const color = "white";
 
   useEffect(() => {
@@ -71,14 +71,13 @@ const AdminDashboard = () => {
     fetchUsers();
   }, []);
 
-  // Vibrant color schemes for cards only
   const cardData = [
     {
       label: "Users",
       number: users.length,
       helpText: "Registered users",
       icon: FaUser,
-      bg: "linear-gradient(135deg, #ff416c, #ff4b2b)",  // pink/red gradient
+      bg: "linear-gradient(135deg, #ff416c, #ff4b2b)",
       iconColor: "yellow.200",
     },
     {
@@ -86,7 +85,7 @@ const AdminDashboard = () => {
       number: 120,
       helpText: "Assigned tasks",
       icon: FaTasks,
-      bg: "linear-gradient(135deg, #56ab2f, #a8e063)",  // green gradient
+      bg: "linear-gradient(135deg, #56ab2f, #a8e063)",
       iconColor: "white",
     },
     {
@@ -94,7 +93,7 @@ const AdminDashboard = () => {
       number: "$5,000",
       helpText: "Processed",
       icon: FaChartLine,
-      bg: "linear-gradient(135deg, #614385, #516395)",  // purple/blue gradient
+      bg: "linear-gradient(135deg, #614385, #516395)",
       iconColor: "cyan.200",
     },
     {
@@ -102,7 +101,7 @@ const AdminDashboard = () => {
       number: "$10,000",
       helpText: "Generated",
       icon: FaMoneyBillWave,
-      bg: "linear-gradient(135deg, #f7971e, #ffd200)",  // yellow/gold gradient
+      bg: "linear-gradient(135deg, #f7971e, #ffd200)",
       iconColor: "green.900",
     },
   ];
@@ -116,7 +115,14 @@ const AdminDashboard = () => {
   return (
     <Box bg={bg} minH="100vh" w="100vw" color={color}>
       <Box p={4}>
-        <Box p={4} bg={bg} mb={6}>
+        {/* UPDATED NAVBAR COLOR */}
+        <Box
+          p={4}
+          bg="linear-gradient(to right, #667eea, #764ba2)"
+          color="white"
+          borderRadius="md"
+          mb={6}
+        >
           <Flex justifyContent="space-between" alignItems="center">
             <Heading fontSize={isMobile ? "2xl" : "4xl"}>
               Admin Dashboard
