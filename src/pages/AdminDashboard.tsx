@@ -1,0 +1,192 @@
+import {
+  Box,
+  Text,
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Heading,
+  TableContainer,
+  useMediaQuery,
+  Link,
+  Grid,
+  GridItem,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  StatGroup,
+  Flex,
+  Icon,
+  IconButton,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiLogOut } from "react-icons/fi";
+import { FaUser, FaTasks, FaChartLine, FaMoneyBillWave, FaUsers } from "react-icons/fa";
+
+interface UserSummary {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const AdminDashboard = () => {
+  const [users, setUsers] = useState<UserSummary[]>([]);
+  const navigate = useNavigate();
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const { colorMode } = useColorMode();
+  const bg = useColorModeValue("white", "gray.800");
+  const color = useColorModeValue("gray.800", "white");
+  const navbarBg = useColorModeValue("blue.500", "blue.900");
+  const navbarColor = useColorModeValue("white", "gray.200");
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get<UserSummary[]>("http://localhost:8080/admin/users", {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("auth-token")}`,
+          },
+        });
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  return (
+    <Box p={4} bg={bg} borderRadius="md" boxShadow="md" maxW="container.lg" mx="auto">
+      <Box bg={navbarBg} color={navbarColor} p={4} borderRadius="md" mb={6}>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Heading fontSize={isMobile ? "2xl" : "4xl"}>
+            Admin Dashboard
+          </Heading>
+          <IconButton
+            aria-label="Logout"
+            icon={<FiLogOut />}
+            colorScheme="whiteAlpha"
+            size={isMobile ? "xs" : "sm"}
+            onClick={() => navigate("/admin/login")}
+          />
+        </Flex>
+      </Box>
+      <Grid templateColumns={isMobile ? "repeat(2, 1fr)" : "repeat(3, 1fr)"} gap={4} mb={6}>
+        <GridItem>
+          <Card bg="blue.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+            <CardHeader>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Stat>
+                  <StatLabel>Users</StatLabel>
+                  <StatNumber>{users.length}</StatNumber>
+                  <StatHelpText>Number of registered users</StatHelpText>
+                </Stat>
+                <Icon as={FaUser} boxSize={6} color="blue.500" />
+              </Flex>
+            </CardHeader>
+          </Card>
+        </GridItem>
+        <GridItem>
+          <Card bg="teal.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+            <CardHeader>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Stat>
+                  <StatLabel>Tasks</StatLabel>
+                  <StatNumber>120</StatNumber>
+                  <StatArrow type="increase" />
+                  <StatHelpText>Total number of tasks assigned</StatHelpText>
+                </Stat>
+                <Icon as={FaTasks} boxSize={6} color="teal.500" />
+              </Flex>
+            </CardHeader>
+          </Card>
+        </GridItem>
+        <GridItem>
+          <Card bg="blue.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+            <CardHeader>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Stat>
+                  <StatLabel>Transactions</StatLabel>
+                  <StatNumber>$5,000</StatNumber>
+                  <StatArrow type="increase" />
+                  <StatHelpText>Total transactions processed</StatHelpText>
+                </Stat>
+                <Icon as={FaChartLine} boxSize={6} color="blue.500" />
+              </Flex>
+            </CardHeader>
+          </Card>
+        </GridItem>
+        <GridItem>
+          <Card bg="teal.100" color={color} boxShadow="lg" p={4} borderRadius="lg" maxW="sm">
+            <CardHeader>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Stat>
+                  <StatLabel>Revenue</StatLabel>
+                  <StatNumber>$10,000</StatNumber>
+                  <StatArrow type="increase" />
+                  <StatHelpText>Total revenue generated</StatHelpText>
+                </Stat>
+                <Icon as={FaMoneyBillWave} boxSize={6} color="teal.500" />
+              </Flex>
+            </CardHeader>
+          </Card>
+        </GridItem>
+      </Grid>
+      <Flex justifyContent="center" mb={6}>
+        <Button
+          onClick={() => navigate("/admin/transactions")}
+          colorScheme="blue"
+          size={isMobile ? "sm" : "md"}
+          mr={4}
+          boxShadow="md"
+        >
+          User Transactions
+        </Button>
+        <Button
+          onClick={() => navigate("/admin/tasks")}
+          colorScheme="blue"
+          size={isMobile ? "sm" : "md"}
+          boxShadow="md"
+        >
+          User Tasks
+        </Button>
+      </Flex>
+      <TableContainer>
+        <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
+          <Thead>
+            <Tr>
+              <Th>ID</Th>
+              <Th>Name</Th>
+              <Th>Email</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {users.map((user) => (
+              <Tr key={user.id}>
+                <Td>{user.id}</Td>
+                <Td>{user.name}</Td>
+                <Td>{user.email}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+};
+
+export default AdminDashboard;
