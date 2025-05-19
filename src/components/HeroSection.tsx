@@ -10,6 +10,7 @@ import {
   Heading,
   VStack,
   Input,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FaEye, FaEyeSlash, FaWifi } from "react-icons/fa";
@@ -27,20 +28,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
   const [cardholderName, setCardholderName] = useState("João C. Santos");
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // Load saved name from localStorage on mount
   useEffect(() => {
     const savedName = localStorage.getItem("cardholderName");
     if (savedName) setCardholderName(savedName);
   }, []);
 
-  // Save name on change
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setCardholderName(val);
     localStorage.setItem("cardholderName", val);
   };
 
-  // Touch swipe handling for flip animation
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   const onTouchStart = (e: TouchEvent) => {
@@ -51,12 +49,32 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
     if (touchStartX === null) return;
     const touchEndX = e.changedTouches[0].clientX;
     const diffX = touchEndX - touchStartX;
-    // Swipe threshold (px)
     const threshold = 50;
-    if (diffX > threshold) setIsFlipped(false); // swipe right = front
-    else if (diffX < -threshold) setIsFlipped(true); // swipe left = back
+    if (diffX > threshold) setIsFlipped(false);
+    else if (diffX < -threshold) setIsFlipped(true);
     setTouchStartX(null);
   };
+
+  const cardFontSize = useBreakpointValue({
+    base: {
+      number: "sm",
+      label: "xs",
+      balance: "lg",
+      input: "sm",
+    },
+    sm: {
+      number: "md",
+      label: "sm",
+      balance: "xl",
+      input: "md",
+    },
+    md: {
+      number: "lg",
+      label: "sm",
+      balance: "2xl",
+      input: "md",
+    },
+  });
 
   return (
     <Box
@@ -89,25 +107,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
           >
             <VStack align="start" spacing={6} maxW="600px">
               <Heading
-                fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
+                fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
                 fontWeight="bold"
                 bgGradient="linear(to-r, #00ff5f, #B3EA1B)"
                 bgClip="text"
               >
                 Smart Money Management
               </Heading>
-              <Text fontSize="xl" color="whiteAlpha.800">
+              <Text fontSize={{ base: "md", md: "xl" }} color="whiteAlpha.800">
                 Controle seu dinheiro com um cartão moderno e inteligente.
               </Text>
             </VStack>
           </MotionBox>
 
-          {/* Realistic Card */}
+          {/* Cartão com decoração de pontos e traços no background */}
           <MotionBox
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            w={{ base: "95vw", sm: "520px", md: "560px" }}
+            w={{ base: "90vw", sm: "480px", md: "560px" }}
             maxW="600px"
             flexShrink={0}
             sx={{ perspective: "1200px" }}
@@ -116,7 +134,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
           >
             <MotionBox
               position="relative"
-              h={{ base: "280px", sm: "300px", md: "320px" }}
+              h={{ base: "240px", sm: "280px", md: "320px" }}
               borderRadius="2xl"
               boxShadow="0 0 40px rgba(0,0,0,0.95)"
               style={{
@@ -125,37 +143,58 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                 transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
               }}
             >
-              {/* Front */}
+              {/* Frente do cartão */}
               <Box
-                bg="linear-gradient(135deg, #000000 0%, #111111 100%)"
                 position="absolute"
                 w="100%"
                 h="100%"
                 borderRadius="2xl"
                 color="white"
-                sx={{ backfaceVisibility: "hidden" }}
-                p={8}
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
+                sx={{
+                  backfaceVisibility: "hidden",
+                  p: { base: 5, sm: 8 },
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+
+                  // DECORAÇÃO: PONTOS E TRAÇOS NO BACKGROUND
+                  backgroundImage: `
+                    radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                    repeating-linear-gradient(45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 2px, transparent 2px, transparent 6px),
+                    repeating-linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px)
+                  `,
+                  backgroundSize: `20px 20px, 8px 8px, 6px 6px`,
+                  backgroundPosition: `0 0, 0 0, 4px 4px`,
+                  backgroundColor: "black", // cor base do cartão, pode ajustar
+                }}
               >
                 {/* Logos */}
-                <Flex justify="space-between" mb={6} flexShrink={0}>
-                  <Icon as={RiVisaLine} w={12} h={8} color="white" />
+                <Flex justify="space-between" mb={{ base: 4, sm: 6 }} flexShrink={0}>
+                  <Icon
+                    as={RiVisaLine}
+                    w={{ base: 8, sm: 12 }}
+                    h={{ base: 6, sm: 8 }}
+                    color="white"
+                  />
                   <Icon
                     as={FaWifi}
-                    w={6}
-                    h={6}
+                    w={{ base: 5, sm: 6 }}
+                    h={{ base: 5, sm: 6 }}
                     transform="rotate(90deg)"
                     color="whiteAlpha.700"
                   />
                 </Flex>
 
-                {/* Chip + Number */}
-                <Flex justify="space-between" align="center" mb={6} flexShrink={0}>
+                {/* Chip + Número */}
+                <Flex
+                  justify="space-between"
+                  align="center"
+                  mb={{ base: 4, sm: 6 }}
+                  flexShrink={0}
+                >
                   <Box
-                    w="55px"
-                    h="40px"
+                    w={{ base: "40px", sm: "55px" }}
+                    h={{ base: "30px", sm: "40px" }}
                     bg="linear-gradient(135deg, #f9e265, #a0843c)"
                     borderRadius="xs"
                     position="relative"
@@ -192,27 +231,32 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   </Box>
 
                   <Text
-                    fontSize="lg"
+                    fontSize={cardFontSize?.number}
                     fontFamily="'Courier New', monospace"
                     color="white"
-                    letterSpacing="3px"
+                    letterSpacing="2px"
                     flexShrink={0}
                   >
                     4929 7534 2315 5466
                   </Text>
                 </Flex>
 
-                {/* Name + Expiry */}
+                {/* Nome e validade */}
                 <Flex justify="space-between" align="center" mt={4} flexShrink={0}>
                   <Box maxW="60%">
-                    <Text fontSize="sm" color="gray.400" mb={1} userSelect="none">
+                    <Text
+                      fontSize={cardFontSize?.label}
+                      color="gray.400"
+                      mb={1}
+                      userSelect="none"
+                    >
                       CARDHOLDER
                     </Text>
                     <Input
                       value={cardholderName}
                       onChange={handleNameChange}
                       variant="unstyled"
-                      fontSize="md"
+                      fontSize={cardFontSize?.input}
                       color="white"
                       fontWeight="medium"
                       maxLength={30}
@@ -226,10 +270,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   </Box>
 
                   <Box flexShrink={0}>
-                    <Text fontSize="sm" color="gray.400" mb={1} userSelect="none">
+                    <Text
+                      fontSize={cardFontSize?.label}
+                      color="gray.400"
+                      mb={1}
+                      userSelect="none"
+                    >
                       EXP
                     </Text>
-                    <Text fontSize="md" color="white" fontWeight="medium" userSelect="none">
+                    <Text
+                      fontSize={cardFontSize?.input}
+                      color="white"
+                      fontWeight="medium"
+                      userSelect="none"
+                    >
                       04/28
                     </Text>
                   </Box>
@@ -238,11 +292,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                 {/* Balance */}
                 <Flex justify="space-between" align="center" mt={6} flexShrink={0}>
                   <Box>
-                    <Text fontSize="sm" color="gray.400" userSelect="none">
+                    <Text fontSize={cardFontSize?.label} color="gray.400" userSelect="none">
                       Balance
                     </Text>
                     <Text
-                      fontSize="2xl"
+                      fontSize={cardFontSize?.balance}
                       fontWeight="bold"
                       color="white"
                       fontFamily="monospace"
@@ -262,10 +316,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                     variant="ghost"
                     onClick={() => setShowBalance(!showBalance)}
                     flexShrink={0}
+                    size={useBreakpointValue({ base: "sm", sm: "md" })}
                   />
                 </Flex>
 
-                {/* Reflection shine */}
+                {/* Reflexo suave */}
                 <Box
                   position="absolute"
                   top={0}
@@ -286,7 +341,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                 />
               </Box>
 
-              {/* Back */}
+              {/* Verso do cartão */}
               <Box
                 bg="linear-gradient(135deg, #111111 0%, #000000 100%)"
                 position="absolute"
@@ -296,7 +351,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                 color="white"
                 sx={{ backfaceVisibility: "hidden" }}
                 transform="rotateY(180deg)"
-                p={8}
+                p={{ base: 5, sm: 8 }}
                 display="flex"
                 flexDirection="column"
                 justifyContent="space-between"
@@ -304,14 +359,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
               >
                 <Box
                   bg="rgba(0,0,0,0.9)"
-                  h="40px"
+                  h={{ base: "30px", sm: "40px" }}
                   borderRadius="sm"
-                  mb={6}
+                  mb={{ base: 4, sm: 6 }}
                 />
                 <Box flex="1" />
                 <Box
                   bg="rgba(255,255,255,0.9)"
-                  h="30px"
+                  h={{ base: "20px", sm: "30px" }}
                   borderRadius="sm"
                 />
               </Box>
