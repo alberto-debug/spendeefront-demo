@@ -1,3 +1,4 @@
+
 import {
   Box,
   Text,
@@ -11,11 +12,9 @@ import {
   Heading,
   TableContainer,
   useMediaQuery,
-  Link,
-  VStack,
-  HStack,
   IconButton,
-  useColorModeValue,
+  Flex,
+  HStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -42,10 +41,10 @@ const UserTasks = () => {
   const navigate = useNavigate();
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { email } = useParams();
-  const bg = useColorModeValue("white", "gray.800");
-  const color = useColorModeValue("gray.800", "white");
-  const navbarBg = useColorModeValue("blue.500", "blue.900");
-  const navbarColor = useColorModeValue("white", "gray.200");
+
+  // Use same bg and colors as AdminDashboard
+  const bg = "#1a202c";
+  const color = "white";
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -56,47 +55,48 @@ const UserTasks = () => {
           },
         });
         setUsers(response.data);
+
+        if (email) {
+          const user = response.data.find((u) => u.email === email) || null;
+          setSelectedUser(user);
+        }
       } catch (error) {
         console.error("Failed to fetch users:", error);
       }
     };
 
-    if (email) {
-      const fetchUserTasks = async () => {
-        try {
-          const response = await axios.get<Task[]>(`http://localhost:8080/admin/users/${email}/tasks`, {
-            headers: {
-              Authorization: `Bearer ${sessionStorage.getItem("auth-token")}`,
-            },
-          });
-          setTasks(response.data);
-          setSelectedUser(users.find(user => user.email === email) || null);
-        } catch (error) {
-          console.error("Failed to fetch tasks:", error);
-        }
-      };
+    const fetchUserTasks = async () => {
+      if (!email) return;
 
-      fetchUserTasks();
-    } else {
-      fetchUsers();
-    }
-  }, [email, users]);
+      try {
+        const response = await axios.get<Task[]>(`http://localhost:8080/admin/users/${email}/tasks`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("auth-token")}`,
+          },
+        });
+        setTasks(response.data);
+      } catch (error) {
+        console.error("Failed to fetch tasks:", error);
+      }
+    };
+
+    fetchUsers();
+    if (email) fetchUserTasks();
+  }, [email]);
 
   const handleUserClick = (email: string) => {
     navigate(`/admin/tasks/${email}`);
   };
 
   const handleGoBack = () => {
-    navigate(-1); // Navigate back to the previous page
+    navigate(-1);
   };
 
   return (
-    <Box p={4} bg={bg} borderRadius="md" boxShadow="md" maxW="container.md" mx="auto">
-      <Box bg={navbarBg} color={navbarColor} p={4} borderRadius="md" mb={6}>
-        <HStack justifyContent="space-between" alignItems="center">
-          <Heading fontSize={isMobile ? "2xl" : "3xl"}>
-            User Tasks
-          </Heading>
+    <Box bg={bg} minH="100vh" w="100vw" color={color} p={4}>
+      <Box p={4} bg={bg} mb={6}>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Heading fontSize={isMobile ? "2xl" : "4xl"}>User Tasks</Heading>
           <IconButton
             aria-label="Go Back"
             icon={<FiArrowLeft />}
@@ -104,21 +104,35 @@ const UserTasks = () => {
             size={isMobile ? "xs" : "sm"}
             onClick={handleGoBack}
           />
-        </HStack>
+        </Flex>
       </Box>
-      {!selectedUser ? (
-        <TableContainer>
-          <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
-            <Thead>
+
+      <Box
+        bg="gray.800"
+        borderRadius="md"
+        boxShadow="md"
+        p={4}
+        maxW="container.md"
+        mx="auto"
+        overflowX="auto"
+      >
+        {!selectedUser ? (
+          <Table variant="simple" size={isMobile ? "sm" : "md"} colorScheme="teal">
+            <Thead bg="gray.700">
               <Tr>
-                <Th>ID</Th>
-                <Th>Name</Th>
-                <Th>Email</Th>
+                <Th color="white">ID</Th>
+                <Th color="white">Name</Th>
+                <Th color="white">Email</Th>
               </Tr>
             </Thead>
             <Tbody>
               {users.map((user) => (
-                <Tr key={user.id} onClick={() => handleUserClick(user.email)} cursor="pointer">
+                <Tr
+                  key={user.id}
+                  onClick={() => handleUserClick(user.email)}
+                  cursor="pointer"
+                  _hover={{ bg: "gray.700" }}
+                >
                   <Td>{user.id}</Td>
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
@@ -126,31 +140,36 @@ const UserTasks = () => {
               ))}
             </Tbody>
           </Table>
-        </TableContainer>
-      ) : (
-        <TableContainer>
-          <Table variant="striped" colorScheme="blue" size={isMobile ? "sm" : "md"}>
-            <Thead>
-              <Tr>
-                <Th>ID</Th>
-                <Th>Title</Th>
-                <Th>Due Date</Th>
-                <Th>Description</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {tasks.map((task) => (
-                <Tr key={task.id}>
-                  <Td>{task.id}</Td>
-                  <Td>{task.title}</Td>
-                  <Td>{task.dueDate}</Td>
-                  <Td>{task.description}</Td>
+        ) : (
+          <>
+            <Box mb={4}>
+              <Text fontWeight="bold" fontSize="lg">
+                Tasks for: {selectedUser.name} ({selectedUser.email})
+              </Text>
+            </Box>
+            <Table variant="simple" size={isMobile ? "sm" : "md"} colorScheme="teal">
+              <Thead bg="gray.700">
+                <Tr>
+                  <Th color="white">ID</Th>
+                  <Th color="white">Title</Th>
+                  <Th color="white">Due Date</Th>
+                  <Th color="white">Description</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      )}
+              </Thead>
+              <Tbody>
+                {tasks.map((task) => (
+                  <Tr key={task.id} _hover={{ bg: "gray.700" }}>
+                    <Td>{task.id}</Td>
+                    <Td>{task.title}</Td>
+                    <Td>{task.dueDate}</Td>
+                    <Td>{task.description}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </>
+        )}
+      </Box>
     </Box>
   );
 };
