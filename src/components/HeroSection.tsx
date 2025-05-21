@@ -1,5 +1,8 @@
 
-import React, { useState, useEffect, TouchEvent } from "react";
+"use client"
+
+import type React from "react"
+import { useState, useEffect, type TouchEvent } from "react"
 import {
   Box,
   Text,
@@ -11,49 +14,50 @@ import {
   VStack,
   Input,
   useBreakpointValue,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { FaEye, FaEyeSlash, FaWifi } from "react-icons/fa";
-import { RiVisaLine } from "react-icons/ri";
+  Button,
+} from "@chakra-ui/react"
+import { motion } from "framer-motion"
+import { FaEye, FaEyeSlash, FaWifi, FaArrowRight } from "react-icons/fa"
+import { RiVisaLine } from "react-icons/ri"
 
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
+const MotionBox = motion(Box)
+const MotionFlex = motion(Flex)
 
 interface HeroSectionProps {
-  balance: number;
+  balance: number
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
-  const [showBalance, setShowBalance] = useState(false);
-  const [cardholderName, setCardholderName] = useState("João C. Santos");
-  const [isFlipped, setIsFlipped] = useState(false);
+const HeroSection: React.FC<HeroSectionProps> = ({ balance = 12345.67 }) => {
+  const [showBalance, setShowBalance] = useState(false)
+  const [cardholderName, setCardholderName] = useState("João C. Santos")
+  const [isFlipped, setIsFlipped] = useState(false)
 
   useEffect(() => {
-    const savedName = localStorage.getItem("cardholderName");
-    if (savedName) setCardholderName(savedName);
-  }, []);
+    const savedName = localStorage.getItem("cardholderName")
+    if (savedName) setCardholderName(savedName)
+  }, [])
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setCardholderName(val);
-    localStorage.setItem("cardholderName", val);
-  };
+    const val = e.target.value
+    setCardholderName(val)
+    localStorage.setItem("cardholderName", val)
+  }
 
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null)
 
   const onTouchStart = (e: TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
+    setTouchStartX(e.touches[0].clientX)
+  }
 
   const onTouchEnd = (e: TouchEvent) => {
-    if (touchStartX === null) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const diffX = touchEndX - touchStartX;
-    const threshold = 50;
-    if (diffX > threshold) setIsFlipped(false);
-    else if (diffX < -threshold) setIsFlipped(true);
-    setTouchStartX(null);
-  };
+    if (touchStartX === null) return
+    const touchEndX = e.changedTouches[0].clientX
+    const diffX = touchEndX - touchStartX
+    const threshold = 50
+    if (diffX > threshold) setIsFlipped(false)
+    else if (diffX < -threshold) setIsFlipped(true)
+    setTouchStartX(null)
+  }
 
   const cardFontSize = useBreakpointValue({
     base: {
@@ -74,20 +78,77 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
       balance: "2xl",
       input: "md",
     },
-  });
+  })
 
   return (
     <Box
-      bg="linear-gradient(135deg, #1a1a1d 0%, #0C0F15 100%)"
+      bg="linear-gradient(135deg, #0F172A 0%, #1E293B 100%)"
       color="white"
-      py={{ base: 8, md: 16 }}
+      py={{ base: 12, md: 20 }}
       position="relative"
       overflow="hidden"
-      minH={{ base: "50vh", md: "auto" }}
+      minH={{ base: "70vh", md: "80vh" }}
       display="flex"
       alignItems="center"
     >
-      <Container maxW="container.xl">
+      {/* Modern background elements */}
+      <Box
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        bottom="0"
+        opacity="0.4"
+        zIndex="0"
+        bgImage="url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB4PSIwIiB5PSIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgzMCkiPjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjEiIGZpbGw9IiM2NEZERjYiIG9wYWNpdHk9IjAuMyIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')"
+      />
+
+      {/* Glowing orbs */}
+      <MotionBox
+        position="absolute"
+        width="300px"
+        height="300px"
+        borderRadius="full"
+        bg="linear-gradient(135deg, #10B981 0%, #0EA5E9 100%)"
+        filter="blur(120px)"
+        opacity="0.2"
+        top="-100px"
+        left="-100px"
+        zIndex="0"
+        animate={{
+          x: [0, 50, 0],
+          y: [0, 30, 0],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "reverse",
+        }}
+      />
+
+      <MotionBox
+        position="absolute"
+        width="400px"
+        height="400px"
+        borderRadius="full"
+        bg="linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)"
+        filter="blur(130px)"
+        opacity="0.15"
+        bottom="-150px"
+        right="-150px"
+        zIndex="0"
+        animate={{
+          x: [0, -70, 0],
+          y: [0, -40, 0],
+        }}
+        transition={{
+          duration: 18,
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "reverse",
+        }}
+      />
+
+      <Container maxW="container.xl" position="relative" zIndex="1">
         <MotionFlex
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -95,7 +156,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
           direction={{ base: "column", lg: "row" }}
           align="center"
           justify="space-between"
-          gap={10}
+          gap={{ base: 12, lg: 16 }}
         >
           <MotionBox
             initial={{ opacity: 0, x: -50 }}
@@ -104,18 +165,98 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
             flex="1"
             textAlign={{ base: "center", lg: "left" }}
           >
-            <VStack align="start" spacing={6} maxW="600px">
-              <Heading
-                fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
-                fontWeight="bold"
-                bgGradient="linear(to-r, #00ff5f, #B3EA1B)"
-                bgClip="text"
-              >
-                Smart Money Management
-              </Heading>
-              <Text fontSize={{ base: "md", md: "xl" }} color="whiteAlpha.800">
-                Controle seu dinheiro com um cartão moderno e inteligente.
-              </Text>
+            <VStack align={{ base: "center", lg: "start" }} spacing={8} maxW="600px">
+              <Box>
+                <Text
+                  fontSize={{ base: "sm", md: "md" }}
+                  fontWeight="medium"
+                  color="#10B981"
+                  letterSpacing="wider"
+                  textTransform="uppercase"
+                  mb={2}
+                >
+                  Finanças simplificadas
+                </Text>
+                <Heading
+                  fontSize={{ base: "3xl", md: "5xl", lg: "6xl" }}
+                  fontWeight="bold"
+                  bgGradient="linear(to-r, #10B981, #0EA5E9)"
+                  bgClip="text"
+                  lineHeight="1.1"
+                  mb={4}
+                >
+                  Smart Money Management
+                </Heading>
+                <Text fontSize={{ base: "md", md: "xl" }} color="whiteAlpha.800" lineHeight="tall">
+                  Controle seu dinheiro com um cartão moderno e inteligente. Acompanhe seus gastos e economize com
+                  facilidade.
+                </Text>
+              </Box>
+
+              <Flex gap={4} flexWrap="wrap" justify={{ base: "center", lg: "flex-start" }} width="100%">
+                <Button
+                  size="lg"
+                  bg="linear-gradient(135deg, #10B981 0%, #0EA5E9 100%)"
+                  _hover={{
+                    bg: "linear-gradient(135deg, #0D9488 0%, #0284C7 100%)",
+                    transform: "translateY(-2px)",
+                    boxShadow: "lg",
+                  }}
+                  _active={{
+                    transform: "translateY(0)",
+                  }}
+                  color="white"
+                  px={8}
+                  rightIcon={<FaArrowRight />}
+                  transition="all 0.3s"
+                >
+                  Começar agora
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  borderColor="#10B981"
+                  color="#10B981"
+                  _hover={{
+                    bg: "rgba(16, 185, 129, 0.1)",
+                    transform: "translateY(-2px)",
+                  }}
+                  _active={{
+                    transform: "translateY(0)",
+                  }}
+                  px={8}
+                  transition="all 0.3s"
+                >
+                  Saiba mais
+                </Button>
+              </Flex>
+
+              <Flex gap={6} mt={4} flexWrap="wrap" justify={{ base: "center", lg: "flex-start" }} width="100%">
+                <VStack align={{ base: "center", lg: "start" }} spacing={1}>
+                  <Text fontSize="2xl" fontWeight="bold" color="#10B981">
+                    +2M
+                  </Text>
+                  <Text fontSize="sm" color="whiteAlpha.700">
+                    Usuários ativos
+                  </Text>
+                </VStack>
+                <VStack align={{ base: "center", lg: "start" }} spacing={1}>
+                  <Text fontSize="2xl" fontWeight="bold" color="#0EA5E9">
+                    98%
+                  </Text>
+                  <Text fontSize="sm" color="whiteAlpha.700">
+                    Satisfação
+                  </Text>
+                </VStack>
+                <VStack align={{ base: "center", lg: "start" }} spacing={1}>
+                  <Text fontSize="2xl" fontWeight="bold" color="#8B5CF6">
+                    24/7
+                  </Text>
+                  <Text fontSize="sm" color="whiteAlpha.700">
+                    Suporte
+                  </Text>
+                </VStack>
+              </Flex>
             </VStack>
           </MotionBox>
 
@@ -164,12 +305,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                 }}
               >
                 <Flex justify="space-between" mb={{ base: 4, sm: 6 }} flexShrink={0}>
-                  <Icon
-                    as={RiVisaLine}
-                    w={{ base: 8, sm: 12 }}
-                    h={{ base: 6, sm: 8 }}
-                    color="white"
-                  />
+                  <Icon as={RiVisaLine} w={{ base: 8, sm: 12 }} h={{ base: 6, sm: 8 }} color="white" />
                   <Icon
                     as={FaWifi}
                     w={{ base: 5, sm: 6 }}
@@ -179,12 +315,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   />
                 </Flex>
 
-                <Flex
-                  justify="space-between"
-                  align="center"
-                  mb={{ base: 4, sm: 6 }}
-                  flexShrink={0}
-                >
+                <Flex justify="space-between" align="center" mb={{ base: 4, sm: 6 }} flexShrink={0}>
                   <Box
                     w={{ base: "40px", sm: "55px" }}
                     h={{ base: "30px", sm: "40px" }}
@@ -197,14 +328,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                       0 2px 6px rgba(0,0,0,0.5)
                     "
                   >
-                    <Box
-                      position="absolute"
-                      top="45%"
-                      left="10%"
-                      right="10%"
-                      height="2px"
-                      bg="rgba(0,0,0,0.5)"
-                    />
+                    <Box position="absolute" top="45%" left="10%" right="10%" height="2px" bg="rgba(0,0,0,0.5)" />
                     <Box
                       position="absolute"
                       top="30%"
@@ -240,12 +364,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
 
                 <Flex justify="space-between" align="center" mt={4} flexShrink={0}>
                   <Box maxW="60%">
-                    <Text
-                      fontSize={cardFontSize?.label}
-                      color="gray.400"
-                      mb={1}
-                      userSelect="none"
-                    >
+                    <Text fontSize={cardFontSize?.label} color="gray.400" mb={1} userSelect="none">
                       CARDHOLDER
                     </Text>
                     <Input
@@ -266,20 +385,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
                   </Box>
 
                   <Box flexShrink={0}>
-                    <Text
-                      fontSize={cardFontSize?.label}
-                      color="gray.400"
-                      mb={1}
-                      userSelect="none"
-                    >
+                    <Text fontSize={cardFontSize?.label} color="gray.400" mb={1} userSelect="none">
                       EXP
                     </Text>
-                    <Text
-                      fontSize={cardFontSize?.input}
-                      color="white"
-                      fontWeight="medium"
-                      userSelect="none"
-                    >
+                    <Text fontSize={cardFontSize?.input} color="white" fontWeight="medium" userSelect="none">
                       04/28
                     </Text>
                   </Box>
@@ -406,7 +515,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
         </MotionFlex>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default HeroSection;
+export default HeroSection
