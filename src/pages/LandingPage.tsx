@@ -24,6 +24,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 
+
 const MotionBox = motion(Box);
 const MotionButton = motion(Button);
 
