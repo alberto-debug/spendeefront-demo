@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Icon, useMediaQuery } from "@chakra-ui/react";
+import { Button, Icon, useMediaQuery, Box, Flex } from "@chakra-ui/react";
 import { FaDownload } from "react-icons/fa";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -158,37 +158,78 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
   };
 
   const [isSmallScreen] = useMediaQuery("(max-width: 600px)");
-  const fontSize = isSmallScreen ? "sm" : "md";
 
   return (
-    <Button
-      bg="linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)"
-      color="white"
-      borderRadius="12px"
-      boxShadow="0 4px 15px rgba(0, 198, 255, 0.3)"
-      _hover={{
-        bg: "linear-gradient(135deg, #00b4e6 0%, #0066e6 100%)",
-        transform: "translateY(-2px)",
-      }}
-      _active={{
-        bg: "linear-gradient(135deg, #00a3cc 0%, #0059cc 100%)",
-      }}
-      onClick={handleDownloadPdf}
-      leftIcon={
-        <Icon
-          as={FaDownload}
-          color="blue.500"
-          boxSize={{ base: "16px", md: "20px", lg: "24px" }}
-        />
-      }
-      size="lg"
-      height={{ base: "60px", md: "75px", lg: "90px" }}
-      width={{ base: "100px", md: "115px", lg: "130px" }}
-      fontSize={{ base: "12px", md: "14px", lg: "16px" }}
-      transition="all 0.3s ease"
-    >
-      Download
-    </Button>
+    <>
+      {/* Desktop Version */}
+      <Button
+        display={{ base: "none", md: "flex" }}
+        bg="linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)"
+        color="white"
+        borderRadius="16px"
+        boxShadow="0 8px 25px rgba(0, 198, 255, 0.25)"
+        _hover={{
+          bg: "linear-gradient(135deg, #00b4e6 0%, #0066e6 100%)",
+          transform: "translateY(-3px)",
+          boxShadow: "0 12px 35px rgba(0, 198, 255, 0.35)",
+        }}
+        _active={{
+          bg: "linear-gradient(135deg, #00a3cc 0%, #0059cc 100%)",
+          transform: "translateY(-1px)",
+        }}
+        onClick={handleDownloadPdf}
+        leftIcon={<Icon as={FaDownload} color="white" boxSize="24px" />}
+        size="lg"
+        height="90px"
+        width="130px"
+        fontSize="16px"
+        fontWeight="600"
+        transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+      >
+        Download
+      </Button>
+
+      {/* Mobile Version - Ícone Redondo com mesmo tamanho */}
+      <Flex
+        display={{ base: "flex", md: "none" }}
+        flexDirection="column"
+        alignItems="center"
+        gap={1}
+      >
+        <Box
+          as="button"
+          onClick={handleDownloadPdf}
+          bg="linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)"
+          borderRadius="full"
+          p={3} // Mesmo tamanho que os botões Income/Expense
+          boxShadow="0 4px 15px rgba(0, 198, 255, 0.3)"
+          _hover={{
+            transform: "scale(1.1)",
+            boxShadow: "0 6px 20px rgba(0, 198, 255, 0.4)",
+          }}
+          _active={{
+            transform: "scale(0.95)",
+          }}
+          transition="all 0.2s ease"
+          cursor="pointer"
+          width="48px" // Mesmo tamanho que os botões Income/Expense
+          height="48px" // Mesmo tamanho que os botões Income/Expense
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Icon as={FaDownload} color="white" boxSize="20px" />
+        </Box>
+        <Box
+          fontSize="10px"
+          color="gray.300" // Cor mais clara para contrastar com fundo preto
+          fontWeight="500"
+          textAlign="center"
+        >
+          PDF
+        </Box>
+      </Flex>
+    </>
   );
 };
 

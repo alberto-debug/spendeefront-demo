@@ -43,7 +43,7 @@ interface Task {
   status: string;
 }
 
-const TaskManager: React.FC = () => {
+const TaskManagerWithButton: React.FC = () => {
   const toast = useToast();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState({
@@ -186,26 +186,84 @@ const TaskManager: React.FC = () => {
 
   return (
     <>
+      {/* Desktop Version */}
       <Button
+        display={{ base: "none", md: "flex" }}
         bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
         color="white"
-        borderRadius="12px"
-        boxShadow="0 4px 15px rgba(102, 126, 234, 0.4)"
-        _hover={{ bg: "linear-gradient(135deg, #5a6cd8 0%, #6a3e92 100%)", transform: "translateY(-2px)" }}
-        _active={{ bg: "linear-gradient(135deg, #4e5ec6 0%, #5e3482 100%)", transform: "translateY(0)" }}
+        borderRadius="16px"
+        boxShadow="0 8px 25px rgba(102, 126, 234, 0.25)"
+        _hover={{
+          bg: "linear-gradient(135deg, #5a6cd8 0%, #6a3e92 100%)",
+          transform: "translateY(-3px)",
+          boxShadow: "0 12px 35px rgba(102, 126, 234, 0.35)",
+        }}
+        _active={{
+          bg: "linear-gradient(135deg, #4e5ec6 0%, #5e3482 100%)",
+          transform: "translateY(-1px)",
+        }}
         onClick={handleOpen}
-        leftIcon={<Icon as={FaBook} boxSize={5} />}
-        px={6}
-        py={7}
-        transition="all 0.3s ease"
+        leftIcon={
+          <Icon
+            as={FaBook}
+            color="white"
+            boxSize="24px"
+          />
+        }
         size="lg"
-        height={{ base: "60px", md: "75px", lg: "90px" }}
-        width={{ base: "100px", md: "115px", lg: "130px" }}
-        fontSize={{ base: "12px", md: "14px", lg: "16px" }}
-
+        height="90px"
+        width="130px"
+        fontSize="16px"
+        fontWeight="600"
+        transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
       >
         Tasks
       </Button>
+
+      {/* Mobile Version - Ícone Redondo com mesmo tamanho */}
+      <Flex
+        display={{ base: "flex", md: "none" }}
+        flexDirection="column"
+        alignItems="center"
+        gap={1}
+      >
+        <Box
+          as="button"
+          onClick={handleOpen}
+          bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+          borderRadius="full"
+          p={3} // Mesmo tamanho que os botões Income/Expense
+          boxShadow="0 4px 15px rgba(102, 126, 234, 0.3)"
+          _hover={{
+            transform: "scale(1.1)",
+            boxShadow: "0 6px 20px rgba(102, 126, 234, 0.4)",
+          }}
+          _active={{
+            transform: "scale(0.95)",
+          }}
+          transition="all 0.2s ease"
+          cursor="pointer"
+          width="48px" // Mesmo tamanho que os botões Income/Expense
+          height="48px" // Mesmo tamanho que os botões Income/Expense
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Icon
+            as={FaBook}
+            color="white"
+            boxSize="20px"
+          />
+        </Box>
+        <Box
+          fontSize="10px"
+          color="gray.300" // Cor mais clara para contrastar com fundo preto
+          fontWeight="500"
+          textAlign="center"
+        >
+          Tasks
+        </Box>
+      </Flex>
 
       <Drawer isOpen={isOpen} placement={drawerPlacement} onClose={handleClose}>
         <DrawerOverlay bg="rgba(0, 0, 0, 0.4)" />
@@ -258,13 +316,13 @@ const TaskManager: React.FC = () => {
                   zIndex={1300} // Higher z-index for Add Task drawer
                 >
                   <DrawerCloseButton color="white" size="lg" mt={2} />
-                  <DrawerHeader py={6} px={6} borderBottom="1px solid" borderColor="gray.700">
+                  <DrawerHeader py={4} px={6} borderBottom="1px solid" borderColor="gray.700">
                     <Heading size="md" fontWeight="bold">
                       Create Task
                     </Heading>
                   </DrawerHeader>
-                  <DrawerBody px={6} py={6} overflow="visible">
-                    <VStack spacing={5} align="stretch">
+                  <DrawerBody px={6} py={4} overflow="visible">
+                    <VStack spacing={4} align="stretch">
                       <FormControl>
                         <FormLabel fontSize="sm" fontWeight="semibold" color="gray.300" mb={1}>
                           Task Title
@@ -281,7 +339,7 @@ const TaskManager: React.FC = () => {
                           _focus={{ bg: "gray.700", borderColor: "#667eea" }}
                           color="white"
                           fontSize="md"
-                          py={5}
+                          py={3}
                         />
                       </FormControl>
                       <FormControl>
@@ -300,7 +358,7 @@ const TaskManager: React.FC = () => {
                           _focus={{ bg: "gray.700", borderColor: "#667eea" }}
                           color="white"
                           fontSize="md"
-                          py={5}
+                          py={3}
                         />
                       </FormControl>
                       <FormControl>
@@ -319,12 +377,12 @@ const TaskManager: React.FC = () => {
                           _focus={{ bg: "gray.700", borderColor: "#667eea" }}
                           color="white"
                           fontSize="md"
-                          py={5}
+                          py={3}
                           sx={{
                             "::-webkit-calendar-picker-indicator": {
                               filter: "invert(1)", // White icon
                               cursor: "pointer",
-                              padding: "8px", // Larger clickable area
+                              padding: "6px", // Smaller clickable area
                             },
                             "::-webkit-datetime-edit": {
                               color: "white", // Visible text
@@ -347,7 +405,7 @@ const TaskManager: React.FC = () => {
                           _focus={{ bg: "gray.700", borderColor: "#667eea" }}
                           color="white"
                           fontSize="md"
-                          py={2}
+                          py={1}
                         >
                           <option value="ONGOING">Ongoing</option>
                           <option value="DONE">Done</option>
@@ -356,7 +414,7 @@ const TaskManager: React.FC = () => {
                       </FormControl>
                     </VStack>
                   </DrawerBody>
-                  <DrawerFooter borderTop="1px solid" borderColor="gray.700" py={4}>
+                  <DrawerFooter borderTop="1px solid" borderColor="gray.700" py={3}>
                     <Button
                       variant="outline"
                       colorScheme="gray"
@@ -450,7 +508,7 @@ const TaskManager: React.FC = () => {
               )}
             </VStack>
           </DrawerBody>
-          <DrawerFooter borderTop="1px solid" borderColor="gray.700" py={4} px={8}>
+          <DrawerFooter borderTop="1px solid" borderColor="gray.700" py={3} px={8}>
             <Button
               variant="outline"
               colorScheme="gray"
@@ -504,4 +562,4 @@ const TaskManager: React.FC = () => {
   );
 };
 
-export default TaskManager;
+export default TaskManagerWithButton;

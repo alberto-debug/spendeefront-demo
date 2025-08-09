@@ -1,4 +1,5 @@
 import { Box } from "@chakra-ui/react";
+
 import { ReactNode } from "react";
 
 interface BackgroundWrapperProps {
@@ -26,6 +27,7 @@ const BackgroundWrapper = ({ children }: BackgroundWrapperProps) => {
       overflow="hidden"
     >
       {/* Gradient Orbs */}
+
       <Box
         position="absolute"
         w="300px"
@@ -38,6 +40,7 @@ const BackgroundWrapper = ({ children }: BackgroundWrapperProps) => {
         left="-100px"
         zIndex={0}
       />
+
       <Box
         position="absolute"
         w="400px"
@@ -52,6 +55,7 @@ const BackgroundWrapper = ({ children }: BackgroundWrapperProps) => {
       />
 
       {/* Main Content */}
+
       <Box
         as="main"
         w="100%"

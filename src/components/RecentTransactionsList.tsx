@@ -34,6 +34,7 @@ const RecentTransactionsList = ({
   return (
     <Box
       mt={8}
+      mb={{ base: "80px", md: "0" }} // Add bottom margin for mobile to prevent overlap with fixed nav
       w={{ base: "100%", md: "90%" }} // largura maior
       mx="auto" // centraliza
       bg="#0F172A"
@@ -78,7 +79,6 @@ const RecentTransactionsList = ({
           View All
         </Button>
       </Flex>
-
       {transactions.length === 0 ? (
         <Flex
           direction="column"
@@ -105,7 +105,6 @@ const RecentTransactionsList = ({
                 showDeleteButton={false}
               />
             ))}
-
             {hasMoreTransactions && (
               <Flex
                 justify="center"
