@@ -34,6 +34,8 @@ const RecentTransactionsList = ({
   return (
     <Box
       mt={8}
+      w={{ base: "100%", md: "90%" }} // largura maior
+      mx="auto" // centraliza
       bg="#0F172A"
       borderRadius="xl"
       overflow="hidden"
