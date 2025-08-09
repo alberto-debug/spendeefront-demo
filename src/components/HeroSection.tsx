@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, TouchEvent } from "react";
 import {
   Box,
@@ -81,10 +80,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
       //bg="linear-gradient(135deg, #1a1a1d 0%, #0C0F15 100%)"
       //bg="linear-gradient(135deg, #0f2027, #203a43, #2c5364)"
       //bg="linear-gradient(135deg, #1CB5E0 0%, #000851 100%)"
-background="radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)"
-
-
-
+      background="radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)"
       color="white"
       py={{ base: 8, md: 16 }}
       position="relative"
@@ -119,9 +115,6 @@ background="radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)"
               >
                 Smart Money Management
               </Heading>
-              <Text fontSize={{ base: "md", md: "xl" }} color="whiteAlpha.800">
-                Controle seu dinheiro com um cartão moderno e inteligente.
-              </Text>
             </VStack>
           </MotionBox>
 
@@ -169,7 +162,11 @@ background="radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)"
                   backgroundColor: "black",
                 }}
               >
-                <Flex justify="space-between" mb={{ base: 4, sm: 6 }} flexShrink={0}>
+                <Flex
+                  justify="space-between"
+                  mb={{ base: 4, sm: 6 }}
+                  flexShrink={0}
+                >
                   <Icon
                     as={RiVisaLine}
                     w={{ base: 8, sm: 12 }}
@@ -244,7 +241,12 @@ background="radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)"
                   </Text>
                 </Flex>
 
-                <Flex justify="space-between" align="center" mt={4} flexShrink={0}>
+                <Flex
+                  justify="space-between"
+                  align="center"
+                  mt={4}
+                  flexShrink={0}
+                >
                   <Box maxW="60%">
                     <Text
                       fontSize={cardFontSize?.label}
@@ -262,7 +264,10 @@ background="radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)"
                       color="white"
                       fontWeight="medium"
                       maxLength={30}
-                      _focus={{ outline: "none", borderBottom: "1px solid #B3EA1B" }}
+                      _focus={{
+                        outline: "none",
+                        borderBottom: "1px solid #B3EA1B",
+                      }}
                       sx={{
                         caretColor: "#B3EA1B",
                         userSelect: "text",
@@ -291,9 +296,18 @@ background="radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)"
                   </Box>
                 </Flex>
 
-                <Flex justify="space-between" align="center" mt={6} flexShrink={0}>
+                <Flex
+                  justify="space-between"
+                  align="center"
+                  mt={6}
+                  flexShrink={0}
+                >
                   <Box>
-                    <Text fontSize={cardFontSize?.label} color="gray.400" userSelect="none">
+                    <Text
+                      fontSize={cardFontSize?.label}
+                      color="gray.400"
+                      userSelect="none"
+                    >
                       Balance
                     </Text>
                     <Text
@@ -403,7 +417,12 @@ background="radial-gradient(circle at center, #1E293B 0%, #0F172A 100%)"
                   />
                 </Box>
 
-                <Text fontSize="xs" color="gray.500" textAlign="center" userSelect="none">
+                <Text
+                  fontSize="xs"
+                  color="gray.500"
+                  textAlign="center"
+                  userSelect="none"
+                >
                   Authorized Signature — Not valid unless signed
                 </Text>
               </Box>
