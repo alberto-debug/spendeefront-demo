@@ -24,7 +24,7 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ balance }) => {
   const [showBalance, setShowBalance] = useState(false);
-  const [cardholderName, setCardholderName] = useState("João C. Santos");
+  const [cardholderName, setCardholderName] = useState("Alberto Junior");
   const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
