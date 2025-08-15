@@ -46,7 +46,6 @@ const BackgroundWrapper = ({ children }: BackgroundWrapperProps) => {
         w="400px"
         h="400px"
         borderRadius="full"
-        bgGradient="linear(135deg, #8B5CF6 0%, #EC4899 100%)"
         filter="blur(130px)"
         opacity={0.05}
         bottom="-150px"
@@ -61,7 +60,6 @@ const BackgroundWrapper = ({ children }: BackgroundWrapperProps) => {
         w="100%"
         maxW={{ base: "100%", md: "900px" }}
         bg="#111827"
-        border="1px solid rgba(255, 255, 255, 0.05)"
         borderRadius="lg"
         shadow="xl"
         p={6}
