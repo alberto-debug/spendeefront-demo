@@ -95,105 +95,159 @@ const ActionButtons = ({
         </Flex>
       </Flex>
 
-      {/* Mobile Layout - Botões fixos na parte inferior */}
+      {/* Mobile Layout - Botões fixos otimizados para Android */}
       <Box display={{ base: "block", md: "none" }}>
-        {/* Container fixo na parte inferior - Com fundo preto e altura reduzida */}
+        {/* Container fixo na parte inferior - Mais compacto e elegante */}
         <Box
           position="fixed"
           bottom="0"
           left="0"
           right="0"
-          zIndex={1000}
-          bg="rgba(0, 0, 0, 0.95)" // Fundo preto
-          backdropFilter="blur(20px)"
-          borderTopRadius="20px"
-          boxShadow="0 -2px 20px rgba(0, 0, 0, 0.3)"
-          px={4}
-          py={2} // Reduzido de 3 para 2
+          zIndex={9999} // Aumentado para garantir que fique sempre no topo
+          bg="rgba(15, 15, 15, 0.98)" // Fundo mais escuro e sólido
+          backdropFilter="blur(25px)"
+          borderTopRadius="24px"
+          boxShadow="0 -4px 30px rgba(0, 0, 0, 0.5), 0 -1px 0px rgba(255, 255, 255, 0.1)"
+          px={3}
+          py={1.5} // Ainda mais compacto
           borderTop="1px solid"
-          borderColor="rgba(255, 255, 255, 0.1)" // Borda mais clara para contrastar com o preto
+          borderColor="rgba(255, 255, 255, 0.15)"
+          // Garantia de posição fixa em Android usando sx prop
+          sx={{
+            transform: "translate3d(0, 0, 0)", // Force hardware acceleration
+            WebkitTransform: "translate3d(0, 0, 0)",
+            willChange: "transform",
+            WebkitOverflowScrolling: "touch",
+            touchAction: "none",
+          }}
         >
-          {/* Navigation Bar - Estilo Apps Modernos com altura reduzida */}
-          <Flex justifyContent="space-around" alignItems="center" px={2} py={1}>
-            {/* Income Button - Mesmo tamanho dos outros */}
-            <Flex flexDirection="column" alignItems="center" gap={1}>
+          {/* Navigation Bar - Mais compacto e elegante */}
+          <Flex
+            justifyContent="space-around"
+            alignItems="center"
+            px={1}
+            py={0.5}
+            minHeight="60px" // Altura mínima garantida
+          >
+            {/* Income Button - Menor e mais elegante */}
+            <Flex flexDirection="column" alignItems="center" gap={0.5}>
               <Box
                 as="button"
                 onClick={onIncomeClick}
-                bg="linear-gradient(135deg, #34d399 0%, #059669 100%)"
+                bg="linear-gradient(135deg, #10b981 0%, #047857 100%)"
                 borderRadius="full"
-                p={3} // Reduzido de 4 para 3 para igualar aos outros botões
-                boxShadow="0 4px 15px rgba(52, 211, 153, 0.3)"
+                p={2.5} // Reduzido para botão menor
+                boxShadow="0 3px 12px rgba(16, 185, 129, 0.4), inset 0 1px 0px rgba(255, 255, 255, 0.2)"
+                border="1px solid rgba(16, 185, 129, 0.3)"
                 _hover={{
-                  transform: "scale(1.1)",
-                  boxShadow: "0 6px 20px rgba(52, 211, 153, 0.4)",
+                  transform: "scale(1.05) translateY(-1px)",
+                  boxShadow:
+                    "0 5px 18px rgba(16, 185, 129, 0.5), inset 0 1px 0px rgba(255, 255, 255, 0.3)",
                 }}
                 _active={{
-                  transform: "scale(0.95)",
+                  transform: "scale(0.95) translateY(0px)",
+                  boxShadow:
+                    "0 2px 8px rgba(16, 185, 129, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2)",
                 }}
-                transition="all 0.2s ease"
+                transition="all 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
                 cursor="pointer"
-                width="48px" // Mesmo tamanho dos outros botões
-                height="48px" // Mesmo tamanho dos outros botões
+                width="40px" // Reduzido de 48px
+                height="40px" // Reduzido de 48px
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
+                sx={{
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                  WebkitTouchCallout: "none",
+                  WebkitTapHighlightColor: "transparent",
+                }}
               >
-                <Icon as={FaDownload} color="white" boxSize="20px" />
+                <Icon as={FaDownload} color="white" boxSize="16px" />
               </Box>
               <Box
-                fontSize="10px"
-                color="gray.300" // Mais claro para contrastar com o fundo preto
-                fontWeight="500"
+                fontSize="9px"
+                color="rgba(255, 255, 255, 0.8)"
+                fontWeight="600"
                 textAlign="center"
+                letterSpacing="0.3px"
+                sx={{
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                }}
               >
                 Income
               </Box>
             </Flex>
 
-            {/* Expense Button - Mesmo tamanho dos outros */}
-            <Flex flexDirection="column" alignItems="center" gap={1}>
+            {/* Expense Button - Menor e mais elegante */}
+            <Flex flexDirection="column" alignItems="center" gap={0.5}>
               <Box
                 as="button"
                 onClick={onExpenseClick}
-                bg="linear-gradient(135deg, #ff7171 0%, #e02e2e 100%)"
+                bg="linear-gradient(135deg, #ef4444 0%, #dc2626 100%)"
                 borderRadius="full"
-                p={3} // Reduzido de 4 para 3 para igualar aos outros botões
-                boxShadow="0 4px 15px rgba(255, 113, 113, 0.3)"
+                p={2.5} // Reduzido para botão menor
+                boxShadow="0 3px 12px rgba(239, 68, 68, 0.4), inset 0 1px 0px rgba(255, 255, 255, 0.2)"
+                border="1px solid rgba(239, 68, 68, 0.3)"
                 _hover={{
-                  transform: "scale(1.1)",
-                  boxShadow: "0 6px 20px rgba(255, 113, 113, 0.4)",
+                  transform: "scale(1.05) translateY(-1px)",
+                  boxShadow:
+                    "0 5px 18px rgba(239, 68, 68, 0.5), inset 0 1px 0px rgba(255, 255, 255, 0.3)",
                 }}
                 _active={{
-                  transform: "scale(0.95)",
+                  transform: "scale(0.95) translateY(0px)",
+                  boxShadow:
+                    "0 2px 8px rgba(239, 68, 68, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2)",
                 }}
-                transition="all 0.2s ease"
+                transition="all 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
                 cursor="pointer"
-                width="48px" // Mesmo tamanho dos outros botões
-                height="48px" // Mesmo tamanho dos outros botões
+                width="40px" // Reduzido de 48px
+                height="40px" // Reduzido de 48px
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
+                sx={{
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                  WebkitTouchCallout: "none",
+                  WebkitTapHighlightColor: "transparent",
+                }}
               >
-                <Icon as={FaUpload} color="white" boxSize="20px" />
+                <Icon as={FaUpload} color="white" boxSize="16px" />
               </Box>
               <Box
-                fontSize="10px"
-                color="gray.300" // Mais claro para contrastar com o fundo preto
-                fontWeight="500"
+                fontSize="9px"
+                color="rgba(255, 255, 255, 0.8)"
+                fontWeight="600"
                 textAlign="center"
+                letterSpacing="0.3px"
+                sx={{
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                }}
               >
                 Outcome
               </Box>
             </Flex>
 
-            {/* Download PDF Button */}
-            <DownloadPdfButton transactions={transactions} balance={balance} />
+            {/* Download PDF Button - Wrapper com tamanho consistente */}
+            <Box>
+              <DownloadPdfButton
+                transactions={transactions}
+                balance={balance}
+              />
+            </Box>
 
-            {/* Task Manager Button */}
-            <TaskManagerWithButton />
+            {/* Task Manager Button - Wrapper com tamanho consistente */}
+            <Box>
+              <TaskManagerWithButton />
+            </Box>
           </Flex>
         </Box>
+
+        {/* Spacer para evitar que o conteúdo da página fique atrás dos botões */}
+        <Box height="80px" />
       </Box>
     </>
   );

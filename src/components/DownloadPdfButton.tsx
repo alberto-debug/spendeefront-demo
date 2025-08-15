@@ -189,42 +189,57 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
         Download
       </Button>
 
-      {/* Mobile Version - Ícone Redondo com mesmo tamanho */}
+      {/* Mobile Version - Smaller and more elegant */}
       <Flex
         display={{ base: "flex", md: "none" }}
         flexDirection="column"
         alignItems="center"
-        gap={1}
+        gap={0.5}
       >
         <Box
           as="button"
           onClick={handleDownloadPdf}
-          bg="linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)"
+          bg="linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)"
           borderRadius="full"
-          p={3} // Mesmo tamanho que os botões Income/Expense
-          boxShadow="0 4px 15px rgba(0, 198, 255, 0.3)"
+          p={2.5} // Reduced from 3 to match other buttons
+          boxShadow="0 3px 12px rgba(14, 165, 233, 0.4), inset 0 1px 0px rgba(255, 255, 255, 0.2)"
+          border="1px solid rgba(14, 165, 233, 0.3)"
           _hover={{
-            transform: "scale(1.1)",
-            boxShadow: "0 6px 20px rgba(0, 198, 255, 0.4)",
+            transform: "scale(1.05) translateY(-1px)",
+            boxShadow:
+              "0 5px 18px rgba(14, 165, 233, 0.5), inset 0 1px 0px rgba(255, 255, 255, 0.3)",
           }}
           _active={{
-            transform: "scale(0.95)",
+            transform: "scale(0.95) translateY(0px)",
+            boxShadow:
+              "0 2px 8px rgba(14, 165, 233, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2)",
           }}
-          transition="all 0.2s ease"
+          transition="all 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
           cursor="pointer"
-          width="48px" // Mesmo tamanho que os botões Income/Expense
-          height="48px" // Mesmo tamanho que os botões Income/Expense
+          width="40px" // Reduced from 48px to match other buttons
+          height="40px" // Reduced from 48px to match other buttons
           display="flex"
           alignItems="center"
           justifyContent="center"
+          sx={{
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            WebkitTouchCallout: "none",
+            WebkitTapHighlightColor: "transparent",
+          }}
         >
-          <Icon as={FaDownload} color="white" boxSize="20px" />
+          <Icon as={FaDownload} color="white" boxSize="16px" />
         </Box>
         <Box
-          fontSize="10px"
-          color="gray.300" // Cor mais clara para contrastar com fundo preto
-          fontWeight="500"
+          fontSize="9px"
+          color="rgba(255, 255, 255, 0.8)"
+          fontWeight="600"
           textAlign="center"
+          letterSpacing="0.3px"
+          sx={{
+            userSelect: "none",
+            WebkitUserSelect: "none",
+          }}
         >
           PDF
         </Box>
